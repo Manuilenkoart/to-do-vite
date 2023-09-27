@@ -20,11 +20,12 @@
       "@/*": ["src/*"],
       "@assets/*": ["src/assets/*"]
     },
+    "strictNullChecks": true,
   },
   "include": [
-    "vite.config.ts",
     ".eslintrc.cjs",
-    "src"
+    "src",
+    "setupTests.ts"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
