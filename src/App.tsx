@@ -1,11 +1,21 @@
+/* eslint-disable no-console */
 import './App.css';
 
 import reactLogo from '@assets/react.svg';
 import viteLogo from '@assets/vite.svg';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
   const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    fetch(`${import.meta.env.VITE_API_URL}/api/todo`)
+      .then((d) => d.json())
+      .then((d) => {
+        console.log(d);
+      })
+      .catch((e) => console.log(e));
+  }, []);
 
   return (
     <>
