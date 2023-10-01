@@ -9,7 +9,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/api/todo`)
+    fetch(`${import.meta.env.VITE_API_URL}/todo`)
       .then((d) => d.json())
       .then((d) => {
         console.log(d);
