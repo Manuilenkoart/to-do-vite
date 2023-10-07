@@ -1,42 +1,63 @@
-/* eslint-disable no-console */
-import './App.css';
-
-import reactLogo from '@assets/react.svg';
 import viteLogo from '@assets/vite.svg';
-import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+
+import { Loader, Modal, TodoForm, TodoList } from './components';
+import useAppHandlers from './useAppHandlers';
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+`;
+
+const AddBtn = styled.button`
+  background-color: #ffa800;
+`;
+
+const Logo = styled.img`
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+
+  &:hover {
+    filter: drop-shadow(0 0 2em #646cffaa);
+  }
+`;
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/todo`)
-      .then((d) => d.json())
-      .then((d) => {
-        console.log(d);
-      })
-      .catch((e) => console.log(e));
-  }, []);
+  const {
+    todoState,
+    initialFormTodo,
+    modal: { isTodoModalOpen, handleTodoModalOpen },
+    handleCancelModalClick,
+    handleDeleteTodoClick,
+    handleUpdateTodoClick,
+    handleSubmitFormTodo,
+  } = useAppHandlers();
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button type="button" onClick={() => setCount((prevCount) => prevCount + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      <Container>
+        {todoState.status === 'pending' ? <Loader /> : <Logo src={viteLogo} alt="Vite logo" />}
+
+        <div>
+          <AddBtn type="button" onClick={handleTodoModalOpen}>
+            Add Todo
+          </AddBtn>
+        </div>
+
+        <TodoList todoState={todoState} onUpdateClick={handleUpdateTodoClick} onDeleteClick={handleDeleteTodoClick} />
+      </Container>
+      {isTodoModalOpen && (
+        <Modal>
+          <TodoForm
+            initialValues={initialFormTodo}
+            handleSubmit={handleSubmitFormTodo}
+            onCancel={handleCancelModalClick}
+          />
+        </Modal>
+      )}
     </>
   );
 }

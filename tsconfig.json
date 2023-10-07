@@ -26,7 +26,6 @@
     ".eslintrc.cjs",
     "src",
     "setupTests.ts",
-    "api"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
