@@ -1,13 +1,9 @@
-import { ReactElement } from 'react';
+import { PropsWithChildren } from 'react';
 import { createPortal } from 'react-dom';
 
 import * as S from './Modal.style';
 
-interface ModalProps {
-  children: ReactElement;
-}
-
-function Modal({ children }: ModalProps): ReactElement {
+function Modal({ children }: PropsWithChildren) {
   return createPortal(<S.Wrapper>{children}</S.Wrapper>, document.body);
 }
 
