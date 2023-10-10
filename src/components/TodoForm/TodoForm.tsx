@@ -1,41 +1,11 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { ReactElement } from 'react';
-import styled from 'styled-components';
 
 import { Todo } from '@/api';
 
 import { FormSchema } from './FormSchema';
+import * as S from './TodoForm.style';
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding-top: 8px;
-`;
-const Title = styled.div`
-  font-size: 24px;
-  font-weight: 800;
-`;
-const Footer = styled.div`
-  display: flex;
-  justify-content: right;
-  gap: 16px;
-`;
-const SubmitBtn = styled.button`
-  background-color: #ffa800;
-`;
-const FieldContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-`;
-const ErrorMessageWrapper = styled.div`
-  position: absolute;
-  bottom: -16px;
-  left: 22px;
-  font-size: 12px;
-  color: #ff2d55;
-`;
 interface TodoFormTodoFormProps {
   initialValues: Todo;
   handleSubmit: (todo: Todo) => void;
@@ -50,31 +20,31 @@ function TodoForm({ initialValues, onCancel, handleSubmit }: TodoFormTodoFormPro
       onSubmit={(values) => handleSubmit({ ...values, id: initialValues.id })}
     >
       <Form>
-        <Container>
-          <Title>{initialValues.id ? 'Update' : 'Add'} Todo</Title>
+        <S.Container>
+          <S.Title>{initialValues.id ? 'Update' : 'Add'} Todo</S.Title>
 
-          <FieldContainer>
+          <S.FieldContainer>
             <Field name="title" placeholder="Title" />
-            <ErrorMessageWrapper>
+            <S.ErrorMessageWrapper>
               <ErrorMessage name="title" />
-            </ErrorMessageWrapper>
-          </FieldContainer>
+            </S.ErrorMessageWrapper>
+          </S.FieldContainer>
 
-          <FieldContainer>
+          <S.FieldContainer>
             <Field name="text" placeholder="Text" as="textarea" rows="5" style={{ resize: 'none' }} />
-            <ErrorMessageWrapper>
+            <S.ErrorMessageWrapper>
               <ErrorMessage name="text" />
-            </ErrorMessageWrapper>
-          </FieldContainer>
+            </S.ErrorMessageWrapper>
+          </S.FieldContainer>
 
-          <Footer>
-            <SubmitBtn type="submit">{initialValues.id ? 'Update' : 'Add'}</SubmitBtn>
+          <S.Footer>
+            <S.SubmitBtn type="submit">{initialValues.id ? 'Update' : 'Add'}</S.SubmitBtn>
 
             <button type="button" onClick={onCancel}>
               Cancel
             </button>
-          </Footer>
-        </Container>
+          </S.Footer>
+        </S.Container>
       </Form>
     </Formik>
   );

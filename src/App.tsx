@@ -1,33 +1,12 @@
 import viteLogo from '@assets/vite.svg';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
-import styled from 'styled-components';
 
 import { Todo } from './api';
+import * as S from './App.style';
 import { Loader, Modal, TodoForm, TodoList } from './components';
 import { useModalHandlers } from './components/Modal';
 import { addTodoFetch, deleteTodoFetch, getTodosFetch, updateTodoFetch, useAppDispatch, useAppSelector } from './store';
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-`;
-
-const AddBtn = styled.button`
-  background-color: #ffa800;
-`;
-
-const Logo = styled.img`
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-
-  &:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-`;
 
 function App() {
   const dispatch = useAppDispatch();
@@ -80,17 +59,17 @@ function App() {
 
   return (
     <>
-      <Container>
-        {todoState.status === 'pending' ? <Loader /> : <Logo src={viteLogo} alt="Vite logo" />}
+      <S.Container>
+        {todoState.status === 'pending' ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
 
         <div>
-          <AddBtn type="button" onClick={handleTodoModalOpen}>
+          <S.AddBtn type="button" onClick={handleTodoModalOpen}>
             Add Todo
-          </AddBtn>
+          </S.AddBtn>
         </div>
 
         <TodoList todoState={todoState} onUpdateClick={handleUpdateTodoClick} onDeleteClick={handleDeleteTodoClick} />
-      </Container>
+      </S.Container>
       {isTodoModalOpen && (
         <Modal>
           <TodoForm
