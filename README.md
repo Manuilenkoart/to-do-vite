@@ -2,6 +2,11 @@
 - [App](https://to-do-vite.vercel.app/)
 - [Api](https://github.com/Manuilenkoart/to-do-vite-api)
 
+# Starting a project:
+Adding files for development
+- local .env.dev
+- production .env.production
+
 # References
 - https://markus.oberlehner.net/blog/using-testing-library-jest-dom-with-vitest/
 
