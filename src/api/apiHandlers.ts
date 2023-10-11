@@ -1,28 +1,20 @@
 import API_PATH from './apiPath';
 import { deleteData, getData, postData, putData } from './crudHandlers';
-import { AxiosResponseSuccess, NewTodo, Todo } from './types';
+import { NewTodo, Todo } from './types';
 
 const API_HANDLERS = {
   Todo: {
     All: {
-      Get(): AxiosResponseSuccess<Todo[]> {
-        return getData(API_PATH.todo._);
-      },
+      Get: () => getData<Todo[]>(API_PATH.todo._),
     },
     Create: {
-      Post(data: NewTodo): AxiosResponseSuccess<Todo> {
-        return postData(API_PATH.todo._, { data });
-      },
+      Post: (data: NewTodo) => postData<Todo>(API_PATH.todo._, { data }),
     },
     Update: {
-      Put(data: Todo): AxiosResponseSuccess<Todo> {
-        return putData(API_PATH.todo._, { data });
-      },
+      Put: (data: Todo) => putData<Todo>(API_PATH.todo._, { data }),
     },
     Delete: {
-      Delete(id: Todo['id']): AxiosResponseSuccess<Todo> {
-        return deleteData(API_PATH.todo._, { data: { id } });
-      },
+      Delete: (id: Todo['id']) => deleteData<Todo>(API_PATH.todo._, { data: { id } }),
     },
   },
 };
