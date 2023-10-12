@@ -1,5 +1,5 @@
 import viteLogo from '@assets/vite.svg';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Todo } from './api';
@@ -12,8 +12,9 @@ function App() {
   const dispatch = useAppDispatch();
   const todoState = useAppSelector((state) => state.todoState);
 
-  const initialFormValuesTodo = { id: '', title: '', text: '' } as Todo;
-  const [initialFormTodo, setInitialFormTodo] = useState<Todo>(initialFormValuesTodo);
+  const initialTodo = useMemo(() => ({ id: '', title: '', text: '' } as const), []);
+  const [initialFormTodo, setInitialFormTodo] = useState<Todo>(initialTodo);
+  const [todoPending, setTodoPending] = useState<Todo>(initialTodo);
 
   useEffect(() => {
     dispatch(getTodosFetch());
@@ -23,7 +24,10 @@ function App() {
     if (todoState.error) {
       toast.error(todoState.error);
     }
-  }, [todoState.error]);
+    if (todoState.status !== 'pending') {
+      setTodoPending(initialTodo);
+    }
+  }, [todoState.error, todoState.status, initialTodo]);
 
   const {
     isModalOpen: isTodoModalOpen,
@@ -40,11 +44,12 @@ function App() {
     }
 
     handleTodoModalClose();
-    setInitialFormTodo(initialFormValuesTodo);
+    setInitialFormTodo(initialTodo);
   };
 
   const handleUpdateTodoClick = (todo: Todo) => {
     setInitialFormTodo((prev) => ({ ...prev, ...todo }));
+    setTodoPending(todo);
     handleTodoModalOpen();
   };
 
@@ -54,13 +59,17 @@ function App() {
 
   const handleCancelModalClick = () => {
     handleTodoModalClose();
-    setInitialFormTodo(initialFormValuesTodo);
+    setInitialFormTodo(initialTodo);
   };
 
   return (
     <>
       <S.Container>
-        {todoState.status === 'pending' ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
+        {todoState.status === 'pending' && !todoState.todos.length ? (
+          <Loader />
+        ) : (
+          <S.Logo src={viteLogo} alt="Vite logo" />
+        )}
 
         <div>
           <S.AddBtn type="button" onClick={handleTodoModalOpen}>
@@ -68,7 +77,12 @@ function App() {
           </S.AddBtn>
         </div>
 
-        <TodoList todoState={todoState} onUpdateClick={handleUpdateTodoClick} onDeleteClick={handleDeleteTodoClick} />
+        <TodoList
+          todoState={todoState}
+          todoPending={todoPending}
+          onUpdateClick={handleUpdateTodoClick}
+          onDeleteClick={handleDeleteTodoClick}
+        />
       </S.Container>
       {isTodoModalOpen && (
         <Modal>

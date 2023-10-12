@@ -9,6 +9,7 @@ export const Container = styled.div`
 `;
 
 export const TodoCard = styled.div`
+  position: relative;
   width: 200px;
   display: flex;
   flex-direction: column;
@@ -50,4 +51,10 @@ export const TodoCardDelete = styled(DeleteOutlined)`
   &:hover {
     color: #ff2d55;
   }
+`;
+
+export const WrapperLineLoader = styled.div`
+  width: inherit;
+  position: absolute;
+  top: 8px;
 `;
