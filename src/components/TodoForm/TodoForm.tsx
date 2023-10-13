@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { ReactElement } from 'react';
+import { memo, ReactElement } from 'react';
 
 import { Todo } from '@/api';
 
@@ -50,4 +50,4 @@ function TodoForm({ initialValues, onCancel, handleSubmit }: TodoFormTodoFormPro
   );
 }
 
-export default TodoForm;
+export default memo(TodoForm);
