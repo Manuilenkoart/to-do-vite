@@ -11,8 +11,8 @@ import {
   deleteTodoFetch,
   getTodosFetch,
   todosErrorSelector,
-  todosSelector,
   todosStatusSelector,
+  todosTotalSelector,
   updateTodoFetch,
   useAppDispatch,
   useAppSelector,
@@ -20,7 +20,7 @@ import {
 
 function App() {
   const dispatch = useAppDispatch();
-  const todos = useAppSelector(todosSelector);
+  const todosTotal = useAppSelector(todosTotalSelector);
   const todoStatus = useAppSelector(todosStatusSelector);
   const todoError = useAppSelector(todosErrorSelector);
 
@@ -81,7 +81,7 @@ function App() {
   return (
     <>
       <S.Container>
-        {todoStatus === 'pending' && !todos.length ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
+        {todoStatus === 'pending' && !todosTotal ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
 
         <div>
           <S.AddBtn type="button" onClick={handleTodoModalOpen}>

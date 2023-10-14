@@ -1,45 +1,59 @@
 /* eslint-disable no-param-reassign */
-import { AnyAction, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { AnyAction, createEntityAdapter, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
-import { TodoState } from '@/api';
+import { InitialAdapterState, Todo } from '@/api';
 
 import { addTodoFetch, deleteTodoFetch, getTodosFetch, updateTodoFetch } from './todoActionCreators';
 
-const initialState = {
-  status: 'uninitialized',
-  todos: [],
+export const todosAdapter = createEntityAdapter<Todo>();
+
+const initialState = todosAdapter.getInitialState<InitialAdapterState>({
+  status: 'idle',
+  currentIds: [],
   error: '',
-} as TodoState;
+});
 
 const todoSlice = createSlice({
   name: 'todos',
   initialState,
   reducers: {},
   extraReducers: ({ addCase, addMatcher }) => {
-    addCase(getTodosFetch.fulfilled, (state, action) => {
-      state.todos = action.payload;
+    addCase(getTodosFetch.fulfilled, (state, { payload }) => {
+      todosAdapter.addMany(state, payload);
     });
-    addCase(deleteTodoFetch.fulfilled, (state, action) => {
-      state.todos = state.todos.filter((todo) => todo.id !== action.payload.id);
+    addCase(deleteTodoFetch.fulfilled, (state, { payload }) => {
+      todosAdapter.removeOne(state, payload.id);
     });
-    addCase(addTodoFetch.fulfilled, (state, action) => {
-      state.todos.push(action.payload);
+    addCase(addTodoFetch.fulfilled, (state, { payload }) => {
+      todosAdapter.addOne(state, payload);
     });
-    addCase(updateTodoFetch.fulfilled, (state, action) => {
-      state.todos = state.todos.map((todo) => (todo.id === action.payload.id ? { ...action.payload } : todo));
+    addCase(updateTodoFetch.fulfilled, (state, { payload }) => {
+      todosAdapter.updateOne(state, {
+        id: payload.id,
+        changes: payload,
+      });
     });
 
-    addMatcher(isPending, (state) => {
-      state.status = 'pending';
+    addMatcher(isPending, (state, { meta: { requestStatus, arg } }: AnyAction) => {
+      state.status = requestStatus;
       state.error = '';
+      if (arg?.id) {
+        state.currentIds.push(arg.id);
+      }
     });
-    addMatcher(isFulfilled, (state) => {
-      state.status = 'fulfilled';
+    addMatcher(isFulfilled, (state, { meta: { requestStatus, arg } }: AnyAction) => {
+      state.status = requestStatus;
       state.error = '';
+      if (arg?.id) {
+        state.currentIds = state.currentIds.filter((id) => id !== arg.id);
+      }
     });
-    addMatcher(isRejected, (state, action: AnyAction) => {
-      state.status = 'rejected';
-      state.error = action.payload;
+    addMatcher(isRejected, (state, { meta: { requestStatus, arg }, payload }: AnyAction) => {
+      state.status = requestStatus;
+      state.error = payload;
+      if (arg?.id) {
+        state.currentIds = state.currentIds.filter((id) => id !== arg.id);
+      }
     });
   },
 });

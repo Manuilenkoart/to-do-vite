@@ -1,8 +1,13 @@
 import { AxiosResponse } from 'axios';
 
+import { store } from '@/store';
+
 export type AxiosResponseSuccess<Data> = Promise<AxiosResponse<Data>>;
 
-export type RequestStatus = 'pending' | 'fulfilled' | 'rejected' | 'uninitialized';
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export type RequestStatus = 'idle' | 'pending' | 'fulfilled' | 'rejected';
 
 export type Todo = {
   id: string;
@@ -12,8 +17,8 @@ export type Todo = {
 
 export type NewTodo = Omit<Todo, 'id'>;
 
-export type TodoState = {
+export type InitialAdapterState = {
   status: RequestStatus;
-  todos: Todo[];
+  currentIds: (string | number)[];
   error: string;
 };

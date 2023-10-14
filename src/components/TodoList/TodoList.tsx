@@ -1,8 +1,14 @@
 import { ArrowUpOutlined } from '@ant-design/icons';
-import { memo, ReactElement, useEffect, useState } from 'react';
+import { memo, ReactElement } from 'react';
 
 import { Todo } from '@/api';
-import { todosSelector, todosStatusSelector, useAppSelector } from '@/store';
+import {
+  todosCurrentIdsSelector,
+  todosSelector,
+  todosStatusSelector,
+  todosTotalSelector,
+  useAppSelector,
+} from '@/store';
 
 import { LineLoader } from '../LineLoader';
 import * as S from './TotoList.style';
@@ -13,23 +19,17 @@ interface TodoListProps {
 }
 function TodoList({ onUpdateClick, onDeleteClick }: TodoListProps): ReactElement {
   const todos = useAppSelector(todosSelector);
-  const status = useAppSelector(todosStatusSelector);
-
-  const [todoPending, setTodoPending] = useState<Todo['id'] | ''>('');
-
-  useEffect(() => {
-    if (status !== 'pending') {
-      setTodoPending('');
-    }
-  }, [status]);
+  const todosTotal = useAppSelector(todosTotalSelector);
+  const todoStatus = useAppSelector(todosStatusSelector);
+  const todoCurrentIds = useAppSelector(todosCurrentIdsSelector);
 
   return (
     <S.Container>
       <>
-        {todos.length
+        {todosTotal
           ? todos.map(({ id, title, text }) => (
               <S.TodoCard key={id}>
-                {todoPending === id && status === 'pending' ? (
+                {todoCurrentIds.includes(id) ? (
                   <S.WrapperLineLoader>
                     <LineLoader />
                   </S.WrapperLineLoader>
@@ -37,12 +37,7 @@ function TodoList({ onUpdateClick, onDeleteClick }: TodoListProps): ReactElement
                 <S.TodoCardHeader>
                   <S.TodoCardTitle>{title}</S.TodoCardTitle>
                   <S.TodoCardIcons>
-                    <S.TodoCardEdit
-                      onClick={() => {
-                        onUpdateClick({ id, title, text });
-                        setTodoPending(id);
-                      }}
-                    />
+                    <S.TodoCardEdit onClick={() => onUpdateClick({ id, title, text })} />
                     <S.TodoCardDelete onClick={() => onDeleteClick(id)} />
                   </S.TodoCardIcons>
                 </S.TodoCardHeader>
@@ -50,7 +45,7 @@ function TodoList({ onUpdateClick, onDeleteClick }: TodoListProps): ReactElement
               </S.TodoCard>
             ))
           : null}
-        {!todos.length && status === 'fulfilled' ? (
+        {!todosTotal && todoStatus === 'fulfilled' ? (
           <div>
             <S.WrapperIcons>
               <ArrowUpOutlined />
