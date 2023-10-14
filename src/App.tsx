@@ -10,9 +10,9 @@ import {
   addTodoFetch,
   deleteTodoFetch,
   getTodosFetch,
-  todosErrorSelector,
-  todosStatusSelector,
-  todosTotalSelector,
+  selectTodoError,
+  selectTodoStatus,
+  selectTotalTodo,
   updateTodoFetch,
   useAppDispatch,
   useAppSelector,
@@ -20,9 +20,9 @@ import {
 
 function App() {
   const dispatch = useAppDispatch();
-  const todosTotal = useAppSelector(todosTotalSelector);
-  const todoStatus = useAppSelector(todosStatusSelector);
-  const todoError = useAppSelector(todosErrorSelector);
+  const todosTotal = useAppSelector(selectTotalTodo);
+  const todoStatus = useAppSelector(selectTodoStatus);
+  const todoError = useAppSelector(selectTodoError);
 
   const initialTodo = useMemo(() => ({ id: '', title: '', text: '' } as const), []);
   const [initialFormTodo, setInitialFormTodo] = useState<Todo>(initialTodo);

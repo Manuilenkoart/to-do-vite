@@ -2,13 +2,7 @@ import { ArrowUpOutlined } from '@ant-design/icons';
 import { memo, ReactElement } from 'react';
 
 import { Todo } from '@/api';
-import {
-  todosCurrentIdsSelector,
-  todosSelector,
-  todosStatusSelector,
-  todosTotalSelector,
-  useAppSelector,
-} from '@/store';
+import { selectAllTodo, selectTodoCurrentIds, selectTodoStatus, selectTotalTodo, useAppSelector } from '@/store';
 
 import { LineLoader } from '../LineLoader';
 import * as S from './TotoList.style';
@@ -18,10 +12,10 @@ interface TodoListProps {
   onDeleteClick: (id: Todo['id']) => void;
 }
 function TodoList({ onUpdateClick, onDeleteClick }: TodoListProps): ReactElement {
-  const todos = useAppSelector(todosSelector);
-  const todosTotal = useAppSelector(todosTotalSelector);
-  const todoStatus = useAppSelector(todosStatusSelector);
-  const todoCurrentIds = useAppSelector(todosCurrentIdsSelector);
+  const todos = useAppSelector(selectAllTodo);
+  const todosTotal = useAppSelector(selectTotalTodo);
+  const todoStatus = useAppSelector(selectTodoStatus);
+  const todoCurrentIds = useAppSelector(selectTodoCurrentIds);
 
   return (
     <S.Container>

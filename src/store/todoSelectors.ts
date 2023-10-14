@@ -7,13 +7,13 @@ import { todosAdapter } from './todoSlice';
 const todoState = (state: RootState) => state.todoState;
 
 export const {
-  selectById: todosByIdSelector,
-  selectIds: todosIdsSelector,
-  selectEntities: todosEntitiesSelector,
-  selectAll: todosSelector,
-  selectTotal: todosTotalSelector,
+  selectById: selectByIdTodo,
+  selectIds: selectIdsTodo,
+  selectEntities: selectEntitiesTodo,
+  selectAll: selectAllTodo,
+  selectTotal: selectTotalTodo,
 } = todosAdapter.getSelectors(todoState);
 
-export const todosStatusSelector = createSelector(todoState, (state) => state.status);
-export const todosErrorSelector = createSelector(todoState, (state) => state.error);
-export const todosCurrentIdsSelector = createSelector(todoState, (state) => state.currentIds);
+export const selectTodoStatus = createSelector(todoState, (state) => state.status);
+export const selectTodoError = createSelector(todoState, (state) => state.error);
+export const selectTodoCurrentIds = createSelector(todoState, (state) => state.currentIds);
