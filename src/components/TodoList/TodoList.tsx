@@ -1,22 +1,28 @@
 import { ArrowUpOutlined } from '@ant-design/icons';
+import { EntityId } from '@reduxjs/toolkit';
 import { memo, ReactElement } from 'react';
 
-import { Todo } from '@/api';
-import { selectAllTodo, selectTodoCurrentIds, selectTodoStatus, selectTotalTodo, useAppSelector } from '@/store';
+import { RequestStatus, Todo } from '@/api';
 
 import { LineLoader } from '../LineLoader';
 import * as S from './TotoList.style';
 
 interface TodoListProps {
+  todos: Todo[];
+  todosTotal: number;
+  todoStatus: RequestStatus;
+  todoCurrentIds: EntityId[];
   onUpdateClick: (todo: Todo) => void;
   onDeleteClick: (id: Todo['id']) => void;
 }
-function TodoList({ onUpdateClick, onDeleteClick }: TodoListProps): ReactElement {
-  const todos = useAppSelector(selectAllTodo);
-  const todosTotal = useAppSelector(selectTotalTodo);
-  const todoStatus = useAppSelector(selectTodoStatus);
-  const todoCurrentIds = useAppSelector(selectTodoCurrentIds);
-
+function TodoList({
+  onUpdateClick,
+  onDeleteClick,
+  todos,
+  todosTotal,
+  todoCurrentIds,
+  todoStatus,
+}: TodoListProps): ReactElement {
   return (
     <S.Container>
       <>

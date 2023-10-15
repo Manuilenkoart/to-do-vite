@@ -10,6 +10,8 @@ import {
   addTodoFetch,
   deleteTodoFetch,
   getTodosFetch,
+  selectAllTodo,
+  selectTodoCurrentIds,
   selectTodoError,
   selectTodoStatus,
   selectTotalTodo,
@@ -23,6 +25,8 @@ function App() {
   const todosTotal = useAppSelector(selectTotalTodo);
   const todoStatus = useAppSelector(selectTodoStatus);
   const todoError = useAppSelector(selectTodoError);
+  const todos = useAppSelector(selectAllTodo);
+  const todoCurrentIds = useAppSelector(selectTodoCurrentIds);
 
   const initialTodo = useMemo(() => ({ id: '', title: '', text: '' } as const), []);
   const [initialFormTodo, setInitialFormTodo] = useState<Todo>(initialTodo);
@@ -89,7 +93,14 @@ function App() {
           </S.AddBtn>
         </div>
 
-        <TodoList onUpdateClick={handleUpdateTodoClick} onDeleteClick={handleDeleteTodoClick} />
+        <TodoList
+          todos={todos}
+          todosTotal={todosTotal}
+          todoCurrentIds={todoCurrentIds}
+          todoStatus={todoStatus}
+          onUpdateClick={handleUpdateTodoClick}
+          onDeleteClick={handleDeleteTodoClick}
+        />
       </S.Container>
       {isTodoModalOpen && (
         <Modal>

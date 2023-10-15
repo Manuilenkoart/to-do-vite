@@ -1,3 +1,4 @@
+import { EntityId } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
 import { store } from '@/store';
@@ -19,6 +20,6 @@ export type NewTodo = Omit<Todo, 'id'>;
 
 export type InitialAdapterState = {
   status: RequestStatus;
-  currentIds: (string | number)[];
+  currentIds: EntityId[];
   error: string;
 };
