@@ -1,5 +1,5 @@
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { memo, ReactElement } from 'react';
+import { memo } from 'react';
 
 import { Todo } from '@/api';
 
@@ -12,7 +12,7 @@ interface TodoFormTodoFormProps {
   onCancel: () => void;
 }
 
-function TodoForm({ initialValues, onCancel, handleSubmit }: TodoFormTodoFormProps): ReactElement {
+function TodoForm({ initialValues, onCancel, handleSubmit }: TodoFormTodoFormProps) {
   return (
     <Formik
       initialValues={initialValues}

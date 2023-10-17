@@ -8,7 +8,7 @@ export const Container = styled.div`
   align-items: start;
 `;
 
-export const TodoCard = styled.div`
+export const Card = styled.div`
   position: relative;
   width: 200px;
   display: flex;
@@ -21,33 +21,33 @@ export const TodoCard = styled.div`
   border-radius: 12px;
 `;
 
-export const TodoCardHeader = styled.div`
+export const Header = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 12px;
 `;
 
-export const TodoCardTitle = styled.div`
+export const Title = styled.div`
   font-weight: 900;
 `;
 
-export const TodoCardIcons = styled.div`
+export const IconsContainer = styled.div`
   display: flex;
   gap: 8px;
   align-items: center;
 `;
 
-export const TodoCardBody = styled.div`
+export const Body = styled.div`
   text-align: left;
 `;
 
-export const TodoCardEdit = styled(EditOutlined)`
+export const EditIcon = styled(EditOutlined)`
   &:hover {
     color: #248f6c;
   }
 `;
 
-export const TodoCardDelete = styled(DeleteOutlined)`
+export const DeleteIcon = styled(DeleteOutlined)`
   &:hover {
     color: #ff2d55;
   }
@@ -57,22 +57,4 @@ export const WrapperLineLoader = styled.div`
   width: inherit;
   position: absolute;
   top: 8px;
-`;
-
-export const WrapperIcons = styled.div`
-  span {
-    &:nth-child(1) {
-      position: relative;
-      top: -16px;
-      left: -40px;
-      transform: rotate(35deg);
-    }
-
-    &:nth-child(3) {
-      position: relative;
-      top: -16px;
-      left: 40px;
-      transform: rotate(-35deg);
-    }
-  }
 `;

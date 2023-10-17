@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 
 import { Todo } from './api';
 import * as S from './App.style';
-import { Loader, Modal, TodoForm, TodoList } from './components';
+import { EmptyTodoList, Loader, Modal, TodoForm, TodoList } from './components';
 import { useModalHandlers } from './components/Modal';
 import {
   addTodoFetch,
@@ -22,7 +22,7 @@ import {
 
 function App() {
   const dispatch = useAppDispatch();
-  const todosTotal = useAppSelector(selectTotalTodo);
+  const todosTotalCount = useAppSelector(selectTotalTodo);
   const todoStatus = useAppSelector(selectTodoStatus);
   const todoError = useAppSelector(selectTodoError);
   const todos = useAppSelector(selectAllTodo);
@@ -85,7 +85,7 @@ function App() {
   return (
     <>
       <S.Container>
-        {todoStatus === 'pending' && !todosTotal ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
+        {todoStatus === 'pending' && !todosTotalCount ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
 
         <div>
           <S.AddBtn type="button" onClick={handleTodoModalOpen}>
@@ -93,14 +93,16 @@ function App() {
           </S.AddBtn>
         </div>
 
-        <TodoList
-          todos={todos}
-          todosTotal={todosTotal}
-          todoCurrentIds={todoCurrentIds}
-          todoStatus={todoStatus}
-          onUpdateClick={handleUpdateTodoClick}
-          onDeleteClick={handleDeleteTodoClick}
-        />
+        {todosTotalCount ? (
+          <TodoList
+            todos={todos}
+            todoCurrentIds={todoCurrentIds}
+            onUpdateClick={handleUpdateTodoClick}
+            onDeleteClick={handleDeleteTodoClick}
+          />
+        ) : (
+          todoStatus === 'fulfilled' && <EmptyTodoList />
+        )}
       </S.Container>
       {isTodoModalOpen && (
         <Modal>
