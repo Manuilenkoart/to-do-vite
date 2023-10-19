@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -9,6 +9,11 @@ export const Container = styled.div`
 export const Title = styled.div`
   font-size: 24px;
   font-weight: 800;
+`;
+export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 export const Footer = styled.div`
   display: flex;

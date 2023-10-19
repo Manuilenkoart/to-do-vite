@@ -108,7 +108,7 @@ function App() {
         <Modal>
           <TodoForm
             initialValues={initialFormTodo}
-            handleSubmit={handleSubmitFormTodo}
+            onHandleSubmit={handleSubmitFormTodo}
             onCancel={handleCancelModalClick}
           />
         </Modal>

@@ -62,7 +62,7 @@ input:focus,
 input:focus-visible, 
 textarea:focus,
 textarea:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: 1px solid #0078d4;
 }
 
 input,textarea {
