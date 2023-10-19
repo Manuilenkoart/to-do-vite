@@ -1,5 +1,5 @@
 import viteLogo from '@assets/vite.svg';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 import { Todo } from './api';
@@ -28,7 +28,7 @@ function App() {
   const todos = useAppSelector(selectAllTodo);
   const todoCurrentIds = useAppSelector(selectTodoCurrentIds);
 
-  const initialTodo = useMemo(() => ({ id: '', title: '', text: '' } as const), []);
+  const initialTodo = { id: '', title: '', text: '' } as const;
   const [initialFormTodo, setInitialFormTodo] = useState<Todo>(initialTodo);
 
   useEffect(() => {
@@ -57,9 +57,8 @@ function App() {
       }
 
       handleTodoModalClose();
-      setInitialFormTodo(initialTodo);
     },
-    [dispatch, handleTodoModalClose, initialTodo]
+    [dispatch, handleTodoModalClose]
   );
 
   const handleUpdateTodoClick = useCallback(
@@ -79,8 +78,12 @@ function App() {
 
   const handleCancelModalClick = useCallback(() => {
     handleTodoModalClose();
+  }, [handleTodoModalClose]);
+
+  const handleAddTodoClick = () => {
     setInitialFormTodo(initialTodo);
-  }, [handleTodoModalClose, initialTodo]);
+    handleTodoModalOpen();
+  };
 
   return (
     <>
@@ -88,7 +91,7 @@ function App() {
         {todoStatus === 'pending' && !todosTotalCount ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
 
         <div>
-          <S.AddBtn type="button" onClick={handleTodoModalOpen}>
+          <S.AddBtn type="button" onClick={handleAddTodoClick}>
             Add todo
           </S.AddBtn>
         </div>
