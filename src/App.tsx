@@ -89,23 +89,19 @@ function App() {
     <>
       <S.Container>
         {todoStatus === 'pending' && !todosTotalCount ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
-
         <div>
           <S.AddBtn type="button" onClick={handleAddTodoClick}>
             Add todo
           </S.AddBtn>
         </div>
 
-        {todosTotalCount ? (
-          <TodoList
-            todos={todos}
-            todoCurrentIds={todoCurrentIds}
-            onUpdateClick={handleUpdateTodoClick}
-            onDeleteClick={handleDeleteTodoClick}
-          />
-        ) : (
-          todoStatus === 'fulfilled' && <EmptyTodoList />
-        )}
+        <TodoList
+          todos={todos}
+          todoCurrentIds={todoCurrentIds}
+          emptyView={!todosTotalCount && todoStatus === 'fulfilled' ? <EmptyTodoList /> : null}
+          onUpdateClick={handleUpdateTodoClick}
+          onDeleteClick={handleDeleteTodoClick}
+        />
       </S.Container>
       {isTodoModalOpen && (
         <Modal>

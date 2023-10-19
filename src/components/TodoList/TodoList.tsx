@@ -1,5 +1,5 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { memo } from 'react';
+import { memo, ReactNode } from 'react';
 
 import { Todo } from '@/api';
 
@@ -9,10 +9,11 @@ import * as S from './TotoList.style';
 interface TodoListProps {
   todos: Todo[];
   todoCurrentIds: EntityId[];
+  emptyView: ReactNode | null;
   onUpdateClick: (todo: Todo) => void;
   onDeleteClick: (id: Todo['id']) => void;
 }
-function TodoList({ onUpdateClick, onDeleteClick, todos, todoCurrentIds }: TodoListProps) {
+function TodoList({ onUpdateClick, onDeleteClick, todos, todoCurrentIds, emptyView }: TodoListProps) {
   return (
     <S.Container>
       {todos.map(({ id, title, text }) => (
@@ -32,6 +33,7 @@ function TodoList({ onUpdateClick, onDeleteClick, todos, todoCurrentIds }: TodoL
           <S.Body> {text}</S.Body>
         </S.Card>
       ))}
+      {emptyView}
     </S.Container>
   );
 }
