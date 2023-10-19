@@ -1,21 +1,22 @@
 import { render, screen } from '@testing-library/react';
+import React from 'react';
 import { Provider } from 'react-redux';
 import { describe } from 'vitest';
 
-import App from './App';
-import { store } from './store';
+import { store } from '../../store';
+import Home from './Home';
 
 const renderAppComponent = () =>
   render(
     <Provider store={store}>
-      <App />
+      <Home />
     </Provider>
   );
 
 describe('App', () => {
   test('has button with text: Add Todo', () => {
     renderAppComponent();
-    const button = screen.getByRole('button', { name: 'Add Todo' });
+    const button = screen.getByRole('button', { name: 'Add todo' });
 
     expect(button).toBeInTheDocument();
   });

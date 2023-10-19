@@ -2,8 +2,8 @@ import { EntityId } from '@reduxjs/toolkit';
 import { memo, ReactNode } from 'react';
 
 import { Todo } from '@/api';
+import { LineLoader } from '@/components';
 
-import { LineLoader } from '../LineLoader';
 import * as S from './TotoList.style';
 
 interface TodoListProps {
