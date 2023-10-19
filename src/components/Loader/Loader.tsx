@@ -1,10 +1,21 @@
 import reactLogo from '@assets/react.svg';
-import { ReactElement } from 'react';
+import styled, { keyframes } from 'styled-components';
 
-import * as S from './Loader.style';
+const spin = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`;
 
-function Loader(): ReactElement {
-  return <S.Logo src={reactLogo} alt="React logo" />;
-}
+export const Loader = styled.img.attrs({ src: reactLogo, alt: 'React Logo' })`
+  height: 6em;
+
+  @media (prefers-reduced-motion: no-preference) {
+    animation: ${spin} infinite 1s linear;
+  }
+`;
 
 export default Loader;

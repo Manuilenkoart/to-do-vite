@@ -4,6 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 32px;
+  padding: 1.5em;
 `;
 
 export const AddBtn = styled.button`
@@ -12,7 +13,6 @@ export const AddBtn = styled.button`
 
 export const Logo = styled.img`
   height: 6em;
-  padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
 

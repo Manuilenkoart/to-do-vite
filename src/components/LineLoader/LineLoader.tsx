@@ -13,7 +13,7 @@ const lineAnim = keyframes`
         width: 100%;
     }
     `;
-const Container = styled.div`
+const LineLoader = styled.div`
   height: 3px;
   position: relative;
   overflow: hidden;
@@ -31,9 +31,5 @@ const Container = styled.div`
     border-radius: 16px;
   }
 `;
-
-function LineLoader() {
-  return <Container />;
-}
 
 export default LineLoader;
