@@ -22,9 +22,9 @@ import {
 import { EmptyTodoList } from './components/EmptyTodoList';
 import { TodoForm } from './components/TodoForm';
 import { TodoList } from './components/TodoList';
-import * as S from './Home.styles';
+import * as S from './Todo.styles';
 
-function HomePage() {
+function TodoPage() {
   const dispatch = useAppDispatch();
   const todosTotalCount = useAppSelector(selectTotalTodo);
   const todoStatus = useAppSelector(selectTodoStatus);
@@ -91,12 +91,15 @@ function HomePage() {
   return (
     <>
       <S.Container>
-        {todoStatus === 'pending' && !todosTotalCount ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
-        <div>
+        <S.LogoWrapper>
+          {todoStatus === 'pending' && !todosTotalCount ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
+        </S.LogoWrapper>
+
+        <S.AddBtnWrapper>
           <S.AddBtn type="button" onClick={handleAddTodoClick}>
             Add todo
           </S.AddBtn>
-        </div>
+        </S.AddBtnWrapper>
 
         <TodoList
           todos={todos}
@@ -119,4 +122,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default TodoPage;

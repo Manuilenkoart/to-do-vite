@@ -1,15 +1,14 @@
 import { render, screen } from '@testing-library/react';
-import React from 'react';
 import { Provider } from 'react-redux';
 import { describe } from 'vitest';
 
 import { store } from '../../store';
-import Home from './Home';
+import Todo from './Todo';
 
 const renderAppComponent = () =>
   render(
     <Provider store={store}>
-      <Home />
+      <Todo />
     </Provider>
   );
 

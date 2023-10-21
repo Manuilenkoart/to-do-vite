@@ -4,15 +4,15 @@ import * as S from './EmptyTodoList.style';
 
 function EmptyTodoList() {
   return (
-    <div>
+    <S.Container>
       <S.WrapperIcons>
         <ArrowUpOutlined />
         <ArrowUpOutlined />
         <ArrowUpOutlined />
       </S.WrapperIcons>
 
-      <h4>Does not have any todo</h4>
-    </div>
+      <h3>Does not have any todo</h3>
+    </S.Container>
   );
 }
 
