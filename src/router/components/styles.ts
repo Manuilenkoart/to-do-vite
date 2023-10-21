@@ -2,10 +2,11 @@ import { FrownOutlined, MehOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
-export const Wrapper = styled.div`
+export const Wrapper = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 32px;
   padding-top: 15%;
 `;
 export const Container = styled.div`

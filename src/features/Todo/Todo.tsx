@@ -96,7 +96,7 @@ function TodoPage() {
         </S.LogoWrapper>
 
         <S.AddBtnWrapper>
-          <S.AddBtn type="button" onClick={handleAddTodoClick}>
+          <S.AddBtn type="button" disabled={!!todoError} onClick={handleAddTodoClick}>
             Add todo
           </S.AddBtn>
         </S.AddBtnWrapper>

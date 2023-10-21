@@ -1,7 +1,7 @@
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.section`
   display: flex;
   gap: 24px;
   flex-wrap: wrap;
@@ -27,7 +27,7 @@ export const Header = styled.div`
   gap: 12px;
 `;
 
-export const Title = styled.div`
+export const Title = styled.h3`
   font-weight: 900;
 `;
 
@@ -37,7 +37,7 @@ export const IconsContainer = styled.div`
   align-items: center;
 `;
 
-export const Body = styled.div`
+export const Body = styled.p`
   text-align: left;
 `;
 
