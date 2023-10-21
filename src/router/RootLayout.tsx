@@ -1,9 +1,10 @@
 import 'react-toastify/dist/ReactToastify.css';
 
+import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 
-import { Header } from '@/components';
+import { Header, LineLoader } from '@/components';
 
 function RootLayout() {
   return (
@@ -11,7 +12,11 @@ function RootLayout() {
       <ToastContainer />
 
       <Header />
-      <Outlet />
+      <main>
+        <Suspense fallback={<LineLoader />}>
+          <Outlet />
+        </Suspense>
+      </main>
     </>
   );
 }

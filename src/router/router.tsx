@@ -1,11 +1,12 @@
+import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { TodoPage } from '@/features';
-
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { NoMatch } from './components/NoMatch';
 import RootLayout from './RootLayout';
 import ROUTER_PATH from './routerPath';
+
+const TodoPageLazy = lazy(() => import('@/features/Todo').then(({ TodoPage }) => ({ default: TodoPage })));
+const NoMatchLazy = lazy(() => import('./components/NoMatch').then(({ NoMatch }) => ({ default: NoMatch })));
 
 const router = createBrowserRouter([
   {
@@ -14,9 +15,9 @@ const router = createBrowserRouter([
     children: [
       {
         path: ROUTER_PATH.todo.index,
-        element: <TodoPage />,
+        element: <TodoPageLazy />,
       },
-      { path: ROUTER_PATH.noMatch, element: <NoMatch /> },
+      { path: ROUTER_PATH.noMatch, element: <NoMatchLazy /> },
     ],
     errorElement: <ErrorBoundary />,
   },
