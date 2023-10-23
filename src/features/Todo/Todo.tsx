@@ -111,11 +111,7 @@ function TodoPage() {
       </S.Container>
       {isTodoModalOpen && (
         <Modal>
-          <TodoForm
-            initialValues={initialFormTodo}
-            onHandleSubmit={handleSubmitFormTodo}
-            onCancel={handleCancelModalClick}
-          />
+          <TodoForm initialValues={initialFormTodo} onSubmit={handleSubmitFormTodo} onCancel={handleCancelModalClick} />
         </Modal>
       )}
     </>

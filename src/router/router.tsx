@@ -1,7 +1,7 @@
 import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { ErrorBoundary } from './components/ErrorBoundary';
+import { ErrorBoundary } from './components';
 import RootLayout from './RootLayout';
 import ROUTER_PATH from './routerPath';
 

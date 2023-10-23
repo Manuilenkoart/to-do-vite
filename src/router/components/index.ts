@@ -1,2 +1,2 @@
 export { ErrorBoundary } from './ErrorBoundary';
-export { NoMatchPage } from './NoMatch';
+export { NoMatch } from './NoMatch';

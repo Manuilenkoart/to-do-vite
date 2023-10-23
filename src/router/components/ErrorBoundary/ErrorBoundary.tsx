@@ -14,7 +14,7 @@ function ErrorBoundary() {
         <S.H1Wrapper>oops</S.H1Wrapper>
       </S.Container>
 
-      <h3> {error.message}</h3>
+      <h3>{error.message}</h3>
 
       <S.WrapperNavLink to={ROUTER_PATH.root} replace>
         Go to home page

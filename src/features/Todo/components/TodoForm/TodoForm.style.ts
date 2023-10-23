@@ -10,7 +10,7 @@ export const Title = styled.h3`
   font-size: 24px;
   font-weight: 800;
 `;
-export const Container = styled.div`
+export const Form = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -22,16 +22,4 @@ export const Footer = styled.div`
 `;
 export const SubmitBtn = styled.button`
   background-color: #ffa800;
-`;
-export const FieldContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  position: relative;
-`;
-export const ErrorMessageWrapper = styled.div`
-  position: absolute;
-  bottom: -16px;
-  left: 22px;
-  font-size: 12px;
-  color: #ff2d55;
 `;
