@@ -19,9 +19,7 @@ import {
   useAppSelector,
 } from '@/store';
 
-import { EmptyTodoList } from './components/EmptyTodoList';
-import { TodoForm } from './components/TodoForm';
-import { TodoList } from './components/TodoList';
+import { EmptyTodoList, TodoForm, TodoList } from './components';
 import * as S from './Todo.styles';
 
 function TodoPage() {

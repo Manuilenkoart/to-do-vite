@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
-import { AnyAction, createEntityAdapter, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
-import { InitialAdapterState, Todo } from '@/api';
+import { InitialAdapterState, Matcher, MatcherRejected, Todo } from '@/api';
 
 import { addTodoFetch, deleteTodoFetch, getTodosFetch, updateTodoFetch } from './todoActionCreators';
 
@@ -34,21 +34,34 @@ const todoSlice = createSlice({
       });
     });
 
-    addMatcher(isPending, (state, { meta: { requestStatus, arg } }: AnyAction) => {
+    addMatcher(isPending, (state, action) => {
+      const {
+        meta: { requestStatus, arg },
+      } = action as Matcher;
+
       state.status = requestStatus;
       state.error = '';
       if (arg?.id) {
         state.currentIds.push(arg.id);
       }
     });
-    addMatcher(isFulfilled, (state, { meta: { requestStatus, arg } }: AnyAction) => {
+    addMatcher(isFulfilled, (state, action) => {
+      const {
+        meta: { requestStatus, arg },
+      } = action as Matcher;
+
       state.status = requestStatus;
       state.error = '';
       if (arg?.id) {
         state.currentIds = state.currentIds.filter((id) => id !== arg.id);
       }
     });
-    addMatcher(isRejected, (state, { meta: { requestStatus, arg }, payload }: AnyAction) => {
+    addMatcher(isRejected, (state, action) => {
+      const {
+        meta: { requestStatus, arg },
+        payload,
+      } = action as MatcherRejected;
+
       state.status = requestStatus;
       state.error = payload;
       if (arg?.id) {

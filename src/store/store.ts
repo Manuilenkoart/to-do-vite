@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
-import todoReducer from './todoSlice';
+import todoReducer from './todo/todoSlice';
 
 const rootReducer = combineReducers({
   todoState: todoReducer,

@@ -23,3 +23,13 @@ export type InitialAdapterState = {
   currentIds: EntityId[];
   error: string;
 };
+
+export type Matcher = {
+  meta: {
+    requestStatus: RequestStatus;
+    arg: { id?: string };
+  };
+};
+export type MatcherRejected = Matcher & {
+  payload: string;
+};
