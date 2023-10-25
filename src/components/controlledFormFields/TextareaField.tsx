@@ -1,4 +1,4 @@
-import { ErrorMessage, Field } from 'formik';
+import { ErrorMessage } from 'formik';
 
 import * as S from './styles';
 
@@ -10,7 +10,7 @@ interface TextareaFieldProps {
 function TextareaField({ name, placeholder }: TextareaFieldProps) {
   return (
     <S.FieldContainer>
-      <Field name={name} placeholder={placeholder} as="textarea" rows="5" style={{ resize: 'none' }} />
+      <S.Textarea name={name} placeholder={placeholder} as="textarea" rows="5" />
       <S.ErrorMessageWrapper>
         <ErrorMessage name="text" />
       </S.ErrorMessageWrapper>
