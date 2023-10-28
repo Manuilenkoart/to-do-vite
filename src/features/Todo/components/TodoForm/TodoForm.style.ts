@@ -13,7 +13,7 @@ export const Title = styled.h3`
 export const Form = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 28px;
 `;
 export const Footer = styled.div`
   display: flex;

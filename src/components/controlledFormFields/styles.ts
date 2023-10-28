@@ -1,4 +1,3 @@
-import { Field } from 'formik';
 import styled from 'styled-components';
 
 export const FieldContainer = styled.div`
@@ -9,11 +8,11 @@ export const FieldContainer = styled.div`
 export const ErrorMessageWrapper = styled.div`
   position: absolute;
   bottom: -16px;
-  left: 22px;
+  left: 16px;
   font-size: 12px;
   color: #ff2d55;
 `;
 
-export const Textarea = styled(Field)`
-  resize: none;
+export const Label = styled.label`
+  padding: 0 0 4px 12px;
 `;
