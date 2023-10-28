@@ -34,34 +34,21 @@ const todoSlice = createSlice({
       });
     });
 
-    addMatcher(isPending, (state, action) => {
-      const {
-        meta: { requestStatus, arg },
-      } = action as Matcher;
-
+    addMatcher<Matcher>(isPending, (state, { meta: { requestStatus, arg } }) => {
       state.status = requestStatus;
       state.error = '';
       if (arg?.id) {
         state.currentIds.push(arg.id);
       }
     });
-    addMatcher(isFulfilled, (state, action) => {
-      const {
-        meta: { requestStatus, arg },
-      } = action as Matcher;
-
+    addMatcher<Matcher>(isFulfilled, (state, { meta: { requestStatus, arg } }) => {
       state.status = requestStatus;
       state.error = '';
       if (arg?.id) {
         state.currentIds = state.currentIds.filter((id) => id !== arg.id);
       }
     });
-    addMatcher(isRejected, (state, action) => {
-      const {
-        meta: { requestStatus, arg },
-        payload,
-      } = action as MatcherRejected;
-
+    addMatcher<MatcherRejected>(isRejected, (state, { meta: { requestStatus, arg }, payload }) => {
       state.status = requestStatus;
       state.error = payload;
       if (arg?.id) {

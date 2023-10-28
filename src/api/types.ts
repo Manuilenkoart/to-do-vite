@@ -1,4 +1,4 @@
-import { EntityId } from '@reduxjs/toolkit';
+import { AnyAction, EntityId } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
 import { store } from '@/store';
@@ -24,12 +24,12 @@ export type InitialAdapterState = {
   error: string;
 };
 
-export type Matcher = {
+export interface Matcher extends AnyAction {
   meta: {
     requestStatus: RequestStatus;
     arg: { id?: string };
   };
-};
-export type MatcherRejected = Matcher & {
+}
+export interface MatcherRejected extends Matcher {
   payload: string;
-};
+}
