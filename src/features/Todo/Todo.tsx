@@ -88,7 +88,7 @@ function TodoPage() {
   };
   return (
     <>
-      <S.Container>
+      <S.Section>
         <S.LogoWrapper>
           {todoStatus === 'pending' && !todosTotalCount ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
         </S.LogoWrapper>
@@ -106,7 +106,7 @@ function TodoPage() {
           onUpdateClick={handleUpdateTodoClick}
           onDeleteClick={handleDeleteTodoClick}
         />
-      </S.Container>
+      </S.Section>
       {isTodoModalOpen && (
         <Modal>
           <TodoForm initialValues={initialFormTodo} onSubmit={handleSubmitFormTodo} onCancel={handleCancelModalClick} />

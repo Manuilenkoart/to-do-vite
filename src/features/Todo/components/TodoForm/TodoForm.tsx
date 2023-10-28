@@ -15,7 +15,7 @@ interface TodoFormProps {
 
 function TodoForm({ initialValues, onCancel, onSubmit }: TodoFormProps) {
   return (
-    <S.Wrapper>
+    <S.Section>
       <S.Title>{initialValues.id ? 'Update' : 'Add'} Todo</S.Title>
       <Formik
         initialValues={initialValues}
@@ -35,7 +35,7 @@ function TodoForm({ initialValues, onCancel, onSubmit }: TodoFormProps) {
           </S.Form>
         </Form>
       </Formik>
-    </S.Wrapper>
+    </S.Section>
   );
 }
 

@@ -15,7 +15,7 @@ interface TodoListProps {
 }
 function TodoList({ onUpdateClick, onDeleteClick, todos, todoCurrentIds, emptyView }: TodoListProps) {
   return (
-    <S.Container>
+    <S.Section>
       {todos.map((todo) => (
         <TodoCard
           key={todo.id}
@@ -26,7 +26,7 @@ function TodoList({ onUpdateClick, onDeleteClick, todos, todoCurrentIds, emptyVi
         />
       ))}
       {emptyView}
-    </S.Container>
+    </S.Section>
   );
 }
 
