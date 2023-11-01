@@ -1,20 +1,13 @@
-import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
+import { screen } from '@testing-library/react';
 import { describe } from 'vitest';
 
-import { store } from '../../store';
+import { rtlStore } from '@/test';
+
 import Todo from './Todo';
 
-const renderAppComponent = () =>
-  render(
-    <Provider store={store}>
-      <Todo />
-    </Provider>
-  );
-
-describe('App', () => {
-  test('has button with text: Add Todo', () => {
-    renderAppComponent();
+describe('Toto', () => {
+  it('has button with text: Add Todo', () => {
+    rtlStore(<Todo />);
     const button = screen.getByRole('button', { name: 'Add todo' });
 
     expect(button).toBeInTheDocument();

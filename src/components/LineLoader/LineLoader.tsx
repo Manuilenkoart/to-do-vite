@@ -13,7 +13,12 @@ const lineAnim = keyframes`
         width: 100%;
     }
     `;
-const LineLoader = styled.div`
+
+interface LineLoaderProps {
+  'data-testid'?: string;
+}
+
+const LineLoader = styled.div.attrs<LineLoaderProps>({ 'data-testid': 'line-loader' })`
   height: 3px;
   position: relative;
   overflow: hidden;
