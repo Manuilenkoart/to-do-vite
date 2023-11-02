@@ -1,9 +1,10 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { render } from '@testing-library/react';
+import { render as rtlRender } from '@testing-library/react';
+import { ReactElement } from 'react';
 import { Provider } from 'react-redux';
 
 import { store } from '@/store';
 
-export const rtlStore = (children: JSX.Element) => render(<Provider store={store}>{children}</Provider>);
+export const renderWithStore = (Component: ReactElement) =>
+  rtlRender(Component, { wrapper: ({ children }) => <Provider store={store}>{children}</Provider> });
 
 export const generateString = (length: number) => 'x'.repeat(length);

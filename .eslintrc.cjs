@@ -33,5 +33,6 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
+    'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.test.ts', '**/*.test.tsx', '**/test/*'] }],
   },
 };

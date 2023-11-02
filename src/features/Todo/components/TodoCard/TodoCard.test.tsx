@@ -1,8 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import { it, vi } from 'vitest';
 
-import { todo } from '@/test';
-
+import { todo } from '../../__mock__';
 import TodoCard from './TodoCard';
 
 const onUpdateClick = vi.fn();

@@ -2,8 +2,9 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import { it, vi } from 'vitest';
 
 import { Todo } from '@/api';
-import { generateString, initialTodo, todo } from '@/test';
+import { generateString } from '@/test';
 
+import { initialTodo, todo } from '../../__mock__';
 import { FormSchemaErrorMessage } from './FormSchema';
 import TodoForm from './TodoForm';
 
@@ -13,25 +14,27 @@ const onSubmit = vi.fn();
 const renderTodoForm = (formValue: Todo) =>
   render(<TodoForm initialValues={formValue} onCancel={onCancel} onSubmit={onSubmit} />);
 
-describe('TodoForm title', () => {
-  it('has Add todo title for new todo', () => {
-    renderTodoForm(initialTodo);
+describe('<TodoForm />', () => {
+  describe('title', () => {
+    it('has Add todo for new todo', () => {
+      renderTodoForm(initialTodo);
 
-    const titleAddTodo = screen.getByText('Add Todo');
-    const titleUpdateTodo = screen.queryByText('Update Todo');
+      const titleAddTodo = screen.getByText('Add Todo');
+      const titleUpdateTodo = screen.queryByText('Update Todo');
 
-    expect(titleAddTodo).toBeInTheDocument();
-    expect(titleUpdateTodo).not.toBeInTheDocument();
-  });
+      expect(titleAddTodo).toBeInTheDocument();
+      expect(titleUpdateTodo).not.toBeInTheDocument();
+    });
 
-  it('has Update todo title for update current todo', () => {
-    renderTodoForm(todo);
+    it('has Update todo title for update current todo', () => {
+      renderTodoForm(todo);
 
-    const titleUpdateTodo = screen.getByText('Update Todo');
-    const titleAddTodo = screen.queryByText('Add Todo');
+      const titleUpdateTodo = screen.getByText('Update Todo');
+      const titleAddTodo = screen.queryByText('Add Todo');
 
-    expect(titleUpdateTodo).toBeInTheDocument();
-    expect(titleAddTodo).not.toBeInTheDocument();
+      expect(titleUpdateTodo).toBeInTheDocument();
+      expect(titleAddTodo).not.toBeInTheDocument();
+    });
   });
 });
 
