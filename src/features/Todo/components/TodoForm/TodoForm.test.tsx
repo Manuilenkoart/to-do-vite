@@ -110,7 +110,6 @@ describe('<TodoForm />', () => {
       await user.type(titleInput, generateString(5));
 
       if (submitButton) await user.click(submitButton);
-      screen.debug();
 
       const errorMessageMinLength = screen.queryByText(FormSchemaErrorMessage.title.min);
       const errorMessageMaxLength = screen.queryByText(FormSchemaErrorMessage.title.max);

@@ -35,19 +35,19 @@ describe('<TodoCard/>', () => {
   });
 
   it('calls onUpdateClick when Edit icon is clicked', async () => {
-    renderComponent();
+    const { user } = renderComponent();
     const editIcon = screen.getByLabelText(/edit/i);
 
-    await userEvent.click(editIcon);
+    await user.click(editIcon);
 
     expect(defaultProps.onUpdateClick).toHaveBeenCalledWith(defaultProps.todo);
   });
 
   it('calls onDeleteClick when Delete icon is clicked', async () => {
-    renderComponent();
+    const { user } = renderComponent();
     const deleteIcon = screen.getByLabelText(/delete/i);
 
-    await userEvent.click(deleteIcon);
+    await user.click(deleteIcon);
 
     expect(defaultProps.onDeleteClick).toHaveBeenCalledWith(defaultProps.todo.id);
   });
