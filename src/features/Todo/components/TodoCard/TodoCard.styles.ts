@@ -1,4 +1,3 @@
-import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 
 export const Card = styled.div`
@@ -33,14 +32,21 @@ export const Body = styled.p`
   text-align: left;
 `;
 
-export const EditIcon = styled(EditOutlined)`
+const IconButton = styled.button`
+  padding: 2px;
+  background-color: transparent;
+`;
+
+export const EditButton = styled(IconButton)`
   &:hover {
+    border: 1px solid #248f6c;
     color: #248f6c;
   }
 `;
 
-export const DeleteIcon = styled(DeleteOutlined)`
+export const DeleteButton = styled(IconButton)`
   &:hover {
+    border: 1px solid #ff2d55;
     color: #ff2d55;
   }
 `;

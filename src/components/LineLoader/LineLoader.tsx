@@ -14,11 +14,7 @@ const lineAnim = keyframes`
     }
     `;
 
-interface LineLoaderProps {
-  'data-testid'?: string;
-}
-
-const LineLoader = styled.div.attrs<LineLoaderProps>({ 'data-testid': 'line-loader' })`
+const LineLoader = styled.div.attrs({ 'aria-label': 'line-loader' })`
   height: 3px;
   position: relative;
   overflow: hidden;

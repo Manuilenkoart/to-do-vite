@@ -1,61 +1,70 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, RenderOptions, screen } from '@testing-library/react';
+import { userEvent } from '@testing-library/user-event';
 import { it, vi } from 'vitest';
 
 import { todo } from '../../__mock__';
 import TodoCard from './TodoCard';
 
-const onUpdateClick = vi.fn();
-const onDeleteClick = vi.fn();
+const defaultProps = {
+  isLoading: false,
+  todo,
+  onUpdateClick: vi.fn(),
+  onDeleteClick: vi.fn(),
+};
+type OverrideProps = Partial<Parameters<typeof TodoCard>[0]>;
 
-const renderTodoCard = ({ isLoading = false }: { isLoading?: boolean }) =>
-  render(<TodoCard isLoading={isLoading} todo={todo} onUpdateClick={onUpdateClick} onDeleteClick={onDeleteClick} />);
+const renderComponent = (overrideProps?: OverrideProps, options?: RenderOptions) => {
+  const user = userEvent.setup();
+  const renderResult = render(<TodoCard {...defaultProps} {...overrideProps} />, options);
+  return {
+    user,
+    ...renderResult,
+  };
+};
 
-describe('TodoCard', () => {
-  it('has loading indicator when isLoading is true', () => {
-    renderTodoCard({ isLoading: true });
-
-    const loader = screen.getByTestId('line-loader');
-
-    expect(loader).toBeInTheDocument();
-  });
-
-  it('hasn`t loading indicator when isLoading is false', () => {
-    renderTodoCard({});
-
-    const loader = screen.queryByTestId('line-loader');
-
-    expect(loader).toBeNull();
-  });
-
-  it('has todo title and text', () => {
-    renderTodoCard({});
-
-    const title = screen.getByRole('heading', { name: todo.title, level: 3 });
-    const text = screen.getByText(todo.text);
+describe('<TodoCard/>', () => {
+  it('renders correctly', () => {
+    renderComponent();
+    const title = screen.getByText(defaultProps.todo.title);
+    const text = screen.getByText(defaultProps.todo.text);
+    const icons = screen.getAllByRole('img');
 
     expect(title).toBeInTheDocument();
     expect(text).toBeInTheDocument();
+    expect(icons).toHaveLength(2);
   });
 
-  it('calls onUpdateClick when Edit icon is clicked', () => {
-    renderTodoCard({});
+  describe('loading indicator', () => {
+    it('render', () => {
+      renderComponent({ isLoading: true });
+      const loader = screen.getByLabelText('line-loader');
 
-    const allImg = screen.getAllByRole('img');
-    const deleteIcon = allImg.find((img) => img.getAttribute('aria-label') === 'edit');
+      expect(loader).toBeInTheDocument();
+    });
 
-    if (deleteIcon) fireEvent.click(deleteIcon);
+    it('don`t render', () => {
+      renderComponent();
+      const loader = screen.queryByLabelText('line-loader');
 
-    expect(onUpdateClick).toHaveBeenCalledWith({ ...todo });
+      expect(loader).not.toBeInTheDocument();
+    });
   });
 
-  it('calls onDeleteClick when Delete icon is clicked', () => {
-    renderTodoCard({});
+  it('calls onUpdateClick when Edit icon is clicked', async () => {
+    renderComponent();
+    const editIcon = screen.getByLabelText(/edit/i);
 
-    const allImg = screen.getAllByRole('img');
-    const deleteIcon = allImg.find((img) => img.getAttribute('aria-label') === 'delete');
+    await userEvent.click(editIcon);
 
-    if (deleteIcon) fireEvent.click(deleteIcon);
+    expect(defaultProps.onUpdateClick).toHaveBeenCalledWith(defaultProps.todo);
+  });
 
-    expect(onDeleteClick).toHaveBeenCalledWith(todo.id);
+  it('calls onDeleteClick when Delete icon is clicked', async () => {
+    renderComponent();
+    const deleteIcon = screen.getByLabelText(/delete/i);
+
+    await userEvent.click(deleteIcon);
+
+    expect(defaultProps.onDeleteClick).toHaveBeenCalledWith(defaultProps.todo.id);
   });
 });
