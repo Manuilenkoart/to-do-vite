@@ -1,213 +1,202 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, RenderOptions, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { it, vi } from 'vitest';
 
-import { Todo } from '@/api';
 import { generateString } from '@/test';
 
 import { initialTodo, todo } from '../../__mock__';
 import { FormSchemaErrorMessage } from './FormSchema';
 import TodoForm from './TodoForm';
 
-const onCancel = vi.fn();
-const onSubmit = vi.fn();
+const defaultProps = {
+  initialValues: initialTodo,
+  onCancel: vi.fn(),
+  onSubmit: vi.fn(),
+};
+type OverrideProps = Partial<Parameters<typeof TodoForm>[0]>;
 
-const renderTodoForm = (formValue: Todo) =>
-  render(<TodoForm initialValues={formValue} onCancel={onCancel} onSubmit={onSubmit} />);
+const renderTodoForm = (overrideProps?: OverrideProps, options?: RenderOptions) => {
+  const user = userEvent.setup();
+  const renderResult = render(<TodoForm {...defaultProps} {...overrideProps} />, options);
+
+  const titleInput = screen.getByLabelText(/title/i);
+  const textInput = screen.getByLabelText(/description/i);
+
+  user.clear(titleInput);
+  user.clear(textInput);
+
+  const allButtons = screen.getAllByRole('button');
+  const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
+
+  return {
+    user,
+    titleInput,
+    textInput,
+    submitButton,
+    ...renderResult,
+  };
+};
 
 describe('<TodoForm />', () => {
-  describe('title', () => {
-    it('has Add todo for new todo', () => {
-      renderTodoForm(initialTodo);
+  it('renders correctly', () => {
+    renderTodoForm();
 
-      const titleAddTodo = screen.getByText('Add Todo');
-      const titleUpdateTodo = screen.queryByText('Update Todo');
+    const title = screen.getByRole('heading');
+    const inputs = screen.getAllByRole('textbox');
+    const buttons = screen.getAllByRole('button');
+
+    expect(title).toBeInTheDocument();
+    expect(inputs).toHaveLength(2);
+    expect(buttons).toHaveLength(2);
+  });
+
+  describe('Title', () => {
+    it('has Add todo for new', () => {
+      renderTodoForm();
+
+      const titleAddTodo = screen.getByText(/add todo/i);
+      const titleUpdateTodo = screen.queryByText(/update todo/i);
 
       expect(titleAddTodo).toBeInTheDocument();
       expect(titleUpdateTodo).not.toBeInTheDocument();
     });
 
-    it('has Update todo title for update current todo', () => {
-      renderTodoForm(todo);
+    it('has Update todo title for update current', () => {
+      renderTodoForm({ initialValues: todo });
 
-      const titleUpdateTodo = screen.getByText('Update Todo');
-      const titleAddTodo = screen.queryByText('Add Todo');
+      const titleUpdateTodo = screen.getByText(/update todo/i);
+      const titleAddTodo = screen.queryByText(/add todo/i);
 
       expect(titleUpdateTodo).toBeInTheDocument();
       expect(titleAddTodo).not.toBeInTheDocument();
     });
   });
-});
 
-describe('TodoForm submit button', () => {
-  it('has Add name', () => {
-    renderTodoForm(initialTodo);
+  describe('Submit button', () => {
+    it('has Add name', () => {
+      renderTodoForm();
+      const btnAdd = screen.getByRole('button', { name: /add/i });
+      const btnUpdate = screen.queryByRole('button', { name: /update/i });
 
-    const allButtons = screen.getAllByRole('button');
+      expect(btnAdd).toBeInTheDocument();
+      expect(btnAdd).toHaveAttribute('type', 'submit');
+      expect(btnUpdate).not.toBeInTheDocument();
+    });
 
-    const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
-    if (submitButton) {
-      expect(submitButton.textContent).toBe('Add');
-    } else {
-      expect(submitButton).toBeInTheDocument();
-    }
+    it('has Update name', () => {
+      renderTodoForm({ initialValues: todo });
+      const btnUpdate = screen.getByRole('button', { name: /update/i });
+      const btnAdd = screen.queryByRole('button', { name: /add/i });
+
+      expect(btnUpdate).toBeInTheDocument();
+      expect(btnUpdate).toHaveAttribute('type', 'submit');
+      expect(btnAdd).not.toBeInTheDocument();
+    });
   });
 
-  it('has Update name', () => {
-    renderTodoForm(todo);
-    const allButtons = screen.getAllByRole('button');
-    const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
-    if (submitButton) {
-      expect(submitButton.textContent).toBe('Update');
-    } else {
-      expect(submitButton).toBeInTheDocument();
-    }
+  describe('Title input validation', () => {
+    it('has required', async () => {
+      const { user, submitButton } = renderTodoForm();
+
+      if (submitButton) await user.click(submitButton);
+
+      const errorMessageMinLength = await screen.findByText(FormSchemaErrorMessage.title.min);
+      expect(errorMessageMinLength).toBeInTheDocument();
+    });
+
+    it('has valid input', async () => {
+      const { user, submitButton, titleInput } = renderTodoForm();
+
+      await user.type(titleInput, generateString(5));
+
+      if (submitButton) await user.click(submitButton);
+      screen.debug();
+
+      const errorMessageMinLength = screen.queryByText(FormSchemaErrorMessage.title.min);
+      const errorMessageMaxLength = screen.queryByText(FormSchemaErrorMessage.title.max);
+
+      expect(errorMessageMinLength).not.toBeInTheDocument();
+      expect(errorMessageMaxLength).not.toBeInTheDocument();
+    });
+
+    it('has error input enter 15 symbols', async () => {
+      const { user, submitButton, titleInput } = renderTodoForm();
+
+      await user.type(titleInput, generateString(15));
+
+      if (submitButton) await user.click(submitButton);
+
+      const errorMessageMaxLength = await screen.findByText(FormSchemaErrorMessage.title.max);
+      expect(errorMessageMaxLength).toBeInTheDocument();
+    });
+  });
+  describe('Text input validation', async () => {
+    it('has required', async () => {
+      const { user, submitButton } = renderTodoForm();
+
+      if (submitButton) await user.click(submitButton);
+
+      const errorMessageMinLength = await screen.findByText(FormSchemaErrorMessage.text.min);
+      expect(errorMessageMinLength).toBeInTheDocument();
+    });
+
+    it('has valid input ', async () => {
+      const { user, submitButton, textInput } = renderTodoForm();
+
+      await user.type(textInput, generateString(75));
+
+      if (submitButton) await user.click(submitButton);
+
+      const errorMessageMinLength = screen.queryByText(FormSchemaErrorMessage.text.min);
+      const errorMessageMaxLength = screen.queryByText(FormSchemaErrorMessage.text.max);
+
+      expect(errorMessageMinLength).not.toBeInTheDocument();
+      expect(errorMessageMaxLength).not.toBeInTheDocument();
+    });
+
+    it('has error input enter 101 symbol', async () => {
+      const { user, submitButton, textInput } = renderTodoForm();
+
+      await user.type(textInput, generateString(101));
+
+      if (submitButton) await user.click(submitButton);
+
+      const errorMessageMinLength = await screen.findByText(FormSchemaErrorMessage.text.max);
+      expect(errorMessageMinLength).toBeInTheDocument();
+    });
   });
 });
 
 describe('TodoForm submitting', () => {
-  it('has Create new todo', () => {
+  it('has Create new todo', async () => {
     const updatedTodo = {
       id: '',
       title: 'myTitle',
       text: 'myText',
     };
-    renderTodoForm(initialTodo);
+    const { user, submitButton, titleInput, textInput } = renderTodoForm({ initialValues: initialTodo });
 
-    const titleInput = screen.getByLabelText('Title');
-    const textInput = screen.getByLabelText('Description');
+    await user.type(titleInput, updatedTodo.title);
+    await user.type(textInput, updatedTodo.text);
 
-    const allButtons = screen.getAllByRole('button');
-    const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
+    if (submitButton) await user.click(submitButton);
 
-    fireEvent.change(titleInput, { target: { value: updatedTodo.text } });
-    fireEvent.change(textInput, { target: { value: updatedTodo.title } });
-
-    if (submitButton) {
-      fireEvent.click(submitButton);
-    }
-    onSubmit(updatedTodo);
-
-    expect(onSubmit).toHaveBeenCalledWith(updatedTodo);
-    expect(onCancel).not.toHaveBeenCalled();
+    expect(defaultProps.onSubmit).toHaveBeenCalledWith(updatedTodo);
   });
 
-  it('has Update todo', () => {
+  it('has Update todo', async () => {
     const updatedValues = {
       id: '1',
       title: 'myTitleUpdated',
       text: 'myUpdated',
     };
+    const { user, submitButton, titleInput, textInput } = renderTodoForm({ initialValues: todo });
 
-    renderTodoForm(todo);
+    await user.type(titleInput, updatedValues.title);
+    await user.type(textInput, updatedValues.text);
 
-    const titleInput = screen.getByLabelText('Title');
-    const textInput = screen.getByLabelText('Description');
+    if (submitButton) await user.click(submitButton);
 
-    const allButtons = screen.getAllByRole('button');
-    const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
-
-    fireEvent.change(titleInput, { target: { value: updatedValues.text } });
-    fireEvent.change(textInput, { target: { value: updatedValues.title } });
-
-    if (submitButton) {
-      fireEvent.click(submitButton);
-    }
-    onSubmit(updatedValues);
-
-    expect(onSubmit).toHaveBeenCalledWith(updatedValues);
-    expect(onCancel).not.toHaveBeenCalled();
-  });
-});
-
-describe('TodoForm title input (min:1, max:14)', () => {
-  it('has error input enter 0 symbol', async () => {
-    renderTodoForm(initialTodo);
-
-    const titleInput = screen.getByLabelText('Title');
-    const allButtons = screen.getAllByRole('button');
-    const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
-
-    fireEvent.change(titleInput, { target: { value: '' } });
-    if (submitButton) fireEvent.click(submitButton);
-
-    const errorMessageMinLength = await screen.findByText(FormSchemaErrorMessage.title.min);
-    expect(errorMessageMinLength).toBeInTheDocument();
-  });
-
-  it('has valid input enter 5 symbols', () => {
-    renderTodoForm(initialTodo);
-    const titleInput = screen.getByLabelText('Title');
-    const allButtons = screen.getAllByRole('button');
-    const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
-
-    fireEvent.change(titleInput, { target: { value: generateString(5) } });
-    if (submitButton) fireEvent.click(submitButton);
-
-    const errorMessageMinLength = screen.queryByText(FormSchemaErrorMessage.title.min);
-    const errorMessageMaxLength = screen.queryByText(FormSchemaErrorMessage.title.max);
-
-    expect(errorMessageMinLength).not.toBeInTheDocument();
-    expect(errorMessageMaxLength).not.toBeInTheDocument();
-  });
-
-  it('has error input enter 15 symbols', async () => {
-    renderTodoForm(initialTodo);
-    const titleInput = screen.getByLabelText('Title');
-    const allButtons = screen.getAllByRole('button');
-    const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
-
-    fireEvent.change(titleInput, { target: { value: generateString(15) } });
-    if (submitButton) fireEvent.click(submitButton);
-
-    const errorMessageMaxLength = await screen.findByText(FormSchemaErrorMessage.title.max);
-
-    expect(errorMessageMaxLength).toBeInTheDocument();
-  });
-});
-
-describe('TodoForm text input (min:1, max:100)', () => {
-  it('has error input enter 0 symbol', async () => {
-    renderTodoForm(initialTodo);
-
-    const titleInput = screen.getByLabelText('Description');
-    const allButtons = screen.getAllByRole('button');
-    const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
-
-    fireEvent.change(titleInput, { target: { value: '' } });
-    if (submitButton) fireEvent.click(submitButton);
-
-    const errorMessageMinLength = await screen.findByText(FormSchemaErrorMessage.text.min);
-    expect(errorMessageMinLength).toBeInTheDocument();
-  });
-
-  it('has valid input enter 75 symbols', () => {
-    renderTodoForm(initialTodo);
-
-    const titleInput = screen.getByLabelText('Description');
-    const allButtons = screen.getAllByRole('button');
-    const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
-
-    fireEvent.change(titleInput, { target: { value: generateString(75) } });
-    if (submitButton) fireEvent.click(submitButton);
-
-    const errorMessageMinLength = screen.queryByText(FormSchemaErrorMessage.text.min);
-    const errorMessageMaxLength = screen.queryByText(FormSchemaErrorMessage.text.max);
-
-    expect(errorMessageMinLength).not.toBeInTheDocument();
-    expect(errorMessageMaxLength).not.toBeInTheDocument();
-  });
-
-  it('has error input enter 101 symbol', async () => {
-    renderTodoForm(initialTodo);
-
-    const titleInput = screen.getByLabelText('Description');
-    const allButtons = screen.getAllByRole('button');
-    const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
-
-    fireEvent.change(titleInput, { target: { value: generateString(101) } });
-    if (submitButton) fireEvent.click(submitButton);
-
-    const errorMessageMinLength = await screen.findByText(FormSchemaErrorMessage.text.max);
-    expect(errorMessageMinLength).toBeInTheDocument();
+    expect(defaultProps.onSubmit).toHaveBeenCalledWith(updatedValues);
   });
 });
