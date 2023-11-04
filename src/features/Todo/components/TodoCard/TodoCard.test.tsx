@@ -34,22 +34,6 @@ describe('<TodoCard/>', () => {
     expect(icons).toHaveLength(2);
   });
 
-  describe('loading indicator', () => {
-    it('render', () => {
-      renderComponent({ isLoading: true });
-      const loader = screen.getByLabelText('line-loader');
-
-      expect(loader).toBeInTheDocument();
-    });
-
-    it('don`t render', () => {
-      renderComponent();
-      const loader = screen.queryByLabelText('line-loader');
-
-      expect(loader).not.toBeInTheDocument();
-    });
-  });
-
   it('calls onUpdateClick when Edit icon is clicked', async () => {
     renderComponent();
     const editIcon = screen.getByLabelText(/edit/i);
@@ -66,5 +50,21 @@ describe('<TodoCard/>', () => {
     await userEvent.click(deleteIcon);
 
     expect(defaultProps.onDeleteClick).toHaveBeenCalledWith(defaultProps.todo.id);
+  });
+
+  describe('Line loading indicator', () => {
+    it('render', () => {
+      renderComponent({ isLoading: true });
+      const loader = screen.getByLabelText('line-loader');
+
+      expect(loader).toBeInTheDocument();
+    });
+
+    it('don`t render', () => {
+      renderComponent();
+      const loader = screen.queryByLabelText('line-loader');
+
+      expect(loader).not.toBeInTheDocument();
+    });
   });
 });
