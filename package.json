@@ -12,6 +12,7 @@
     "build": "tsc && vite build --mode production",
     "preview": "vite preview",
     "test": "vitest",
+    "coverage": "vitest run --coverage",
     "lint": "eslint --ext .js,.cjs,.ts,.tsx .",
     "lint:fix": "eslint --ext .js,.cjs,.ts,.tsx . --fix",
     "prepare": "husky install"
@@ -43,6 +44,7 @@
     "@typescript-eslint/eslint-plugin": "^5.59.11",
     "@typescript-eslint/parser": "^5.59.11",
     "@vitejs/plugin-react": "^4.0.0",
+    "@vitest/coverage-v8": "^0.34.6",
     "eslint": "^8.42.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",
