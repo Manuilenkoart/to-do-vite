@@ -102,7 +102,7 @@ function TodoPage() {
         <TodoList
           todos={todos}
           todoCurrentIds={todoCurrentIds}
-          emptyView={!todosTotalCount && todoStatus === 'fulfilled' ? <EmptyTodoList /> : null}
+          emptyView={<EmptyTodoList />}
           onUpdateClick={handleUpdateTodoClick}
           onDeleteClick={handleDeleteTodoClick}
         />
