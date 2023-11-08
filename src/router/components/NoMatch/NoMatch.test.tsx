@@ -6,7 +6,7 @@ import NoMatch from './NoMatch';
 
 describe('<NoMatch />', () => {
   it('renders correctly', () => {
-    renderWithRouter(<NoMatch />, { route: '/some/bad/route' });
+    renderWithRouter(<NoMatch />);
 
     const text = screen.getAllByText('4');
     const icon = screen.getByLabelText(/meh/i);

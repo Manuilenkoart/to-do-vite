@@ -9,3 +9,4 @@ export {
   selectTodoStatus,
   selectTotalTodo,
 } from './todoSelectors';
+export { default as todoReducer } from './todoSlice';

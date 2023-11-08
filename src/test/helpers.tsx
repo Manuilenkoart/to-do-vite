@@ -6,7 +6,7 @@ import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 
 import { store } from '@/store';
 
-export const renderWithStore = (Component: ReactElement) =>
+export const renderWithProviders = (Component: ReactElement) =>
   rtlRender(Component, { wrapper: ({ children }) => <Provider store={store}>{children}</Provider> });
 
 export const renderWithRouter = (Component: ReactElement, { path = '/', initialEntries = ['/'] } = {}) => {
@@ -27,4 +27,4 @@ export const renderWithRouter = (Component: ReactElement, { path = '/', initialE
   };
 };
 
-export const generateString = (length: number) => 'x'.repeat(length);
+export const generateStringLength = (length: number) => 'x'.repeat(length);

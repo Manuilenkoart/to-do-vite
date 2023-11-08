@@ -2,7 +2,7 @@ import { render, RenderOptions, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { it, vi } from 'vitest';
 
-import { generateString } from '@/test';
+import { generateStringLength } from '@/test';
 
 import { initialTodo, todo } from '../../__mock__';
 import { FormSchemaErrorMessage } from './FormSchema';
@@ -107,7 +107,7 @@ describe('<TodoForm />', () => {
     it('has valid input', async () => {
       const { user, submitButton, titleInput } = renderTodoForm();
 
-      await user.type(titleInput, generateString(5));
+      await user.type(titleInput, generateStringLength(5));
 
       if (submitButton) await user.click(submitButton);
 
@@ -121,7 +121,7 @@ describe('<TodoForm />', () => {
     it('has error input enter 15 symbols', async () => {
       const { user, submitButton, titleInput } = renderTodoForm();
 
-      await user.type(titleInput, generateString(15));
+      await user.type(titleInput, generateStringLength(15));
 
       if (submitButton) await user.click(submitButton);
 
@@ -142,7 +142,7 @@ describe('<TodoForm />', () => {
     it('has valid input ', async () => {
       const { user, submitButton, textInput } = renderTodoForm();
 
-      await user.type(textInput, generateString(75));
+      await user.type(textInput, generateStringLength(75));
 
       if (submitButton) await user.click(submitButton);
 
@@ -156,7 +156,7 @@ describe('<TodoForm />', () => {
     it('has error input enter 101 symbol', async () => {
       const { user, submitButton, textInput } = renderTodoForm();
 
-      await user.type(textInput, generateString(101));
+      await user.type(textInput, generateStringLength(101));
 
       if (submitButton) await user.click(submitButton);
 
@@ -164,38 +164,38 @@ describe('<TodoForm />', () => {
       expect(errorMessageMinLength).toBeInTheDocument();
     });
   });
-});
 
-describe('TodoForm submitting', () => {
-  it('has Create new todo', async () => {
-    const updatedTodo = {
-      id: '',
-      title: 'myTitle',
-      text: 'myText',
-    };
-    const { user, submitButton, titleInput, textInput } = renderTodoForm({ initialValues: initialTodo });
+  describe('TodoForm submitting', () => {
+    it('has Created new todo', async () => {
+      const updatedTodo = {
+        id: '',
+        title: 'myTitle',
+        text: 'myText',
+      };
+      const { user, submitButton, titleInput, textInput } = renderTodoForm({ initialValues: initialTodo });
 
-    await user.type(titleInput, updatedTodo.title);
-    await user.type(textInput, updatedTodo.text);
+      await user.type(titleInput, updatedTodo.title);
+      await user.type(textInput, updatedTodo.text);
 
-    if (submitButton) await user.click(submitButton);
+      if (submitButton) await user.click(submitButton);
 
-    expect(defaultProps.onSubmit).toHaveBeenCalledWith(updatedTodo);
-  });
+      expect(defaultProps.onSubmit).toHaveBeenCalledWith(updatedTodo);
+    });
 
-  it('has Update todo', async () => {
-    const updatedValues = {
-      id: '1',
-      title: 'myTitleUpdated',
-      text: 'myUpdated',
-    };
-    const { user, submitButton, titleInput, textInput } = renderTodoForm({ initialValues: todo });
+    it('has Updated todo', async () => {
+      const updatedValues = {
+        id: '1',
+        title: 'myTitleUpdated',
+        text: 'myUpdated',
+      };
+      const { user, submitButton, titleInput, textInput } = renderTodoForm({ initialValues: todo });
 
-    await user.type(titleInput, updatedValues.title);
-    await user.type(textInput, updatedValues.text);
+      await user.type(titleInput, updatedValues.title);
+      await user.type(textInput, updatedValues.text);
 
-    if (submitButton) await user.click(submitButton);
+      if (submitButton) await user.click(submitButton);
 
-    expect(defaultProps.onSubmit).toHaveBeenCalledWith(updatedValues);
+      expect(defaultProps.onSubmit).toHaveBeenCalledWith(updatedValues);
+    });
   });
 });
