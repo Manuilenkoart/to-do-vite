@@ -1,5 +1,3 @@
-import 'react-toastify/dist/ReactToastify.css';
-
 import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 

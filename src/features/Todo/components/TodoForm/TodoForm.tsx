@@ -5,7 +5,7 @@ import { Todo } from '@/api';
 import { InputField, TextareaField } from '@/components';
 
 import { FormSchema } from './FormSchema';
-import * as S from './TodoForm.style';
+import * as S from './TodoForm.styled';
 
 interface TodoFormProps {
   initialValues: Todo;

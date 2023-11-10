@@ -4,7 +4,7 @@ import { memo, ReactElement } from 'react';
 import { Todo } from '@/api';
 
 import { TodoCard } from '../TodoCard';
-import * as S from './TotoList.style';
+import * as S from './TotoList.styled';
 
 interface TodoListProps {
   todos: Todo[];

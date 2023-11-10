@@ -20,7 +20,7 @@ import {
 } from '@/store';
 
 import { EmptyTodoList, TodoForm, TodoList } from './components';
-import * as S from './Todo.styles';
+import * as S from './Todo.styled';
 
 function TodoPage() {
   const dispatch = useAppDispatch();

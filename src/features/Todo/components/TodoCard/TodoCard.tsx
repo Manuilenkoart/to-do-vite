@@ -4,7 +4,7 @@ import { memo } from 'react';
 import { Todo } from '@/api';
 import { LineLoader } from '@/components';
 
-import * as S from './TodoCard.styles';
+import * as S from './TodoCard.styled';
 
 interface TodoCardProps {
   isLoading: boolean;
