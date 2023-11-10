@@ -1,6 +1,6 @@
 import { render, RenderOptions, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { vi } from 'vitest';
+import { it, vi } from 'vitest';
 
 import { todo } from '../../__mock__';
 import { EmptyTodoList } from '../EmptyTodoList';
@@ -43,6 +43,35 @@ describe('<TodoList />', () => {
       defaultProps.todos.forEach(({ title, text }) => {
         expect(title).toBeInTheDocument();
         expect(text).toBeInTheDocument();
+      });
+
+      expect(screen.queryByText(/does not have any todo/i)).not.toBeInTheDocument();
+    });
+  });
+
+  describe('props for <TodoCard />', () => {
+    it('has isLoading condition true', () => {
+      const overrideProps = {
+        todos: [todo],
+        todoCurrentIds: [todo.id],
+      };
+      renderComponent(overrideProps);
+
+      overrideProps.todos.forEach(({ id }) => {
+        const isLoading = overrideProps.todoCurrentIds.includes(id);
+        expect(isLoading).toBeTruthy();
+      });
+    });
+
+    it('has isLoading condition false', () => {
+      const overrideProps = {
+        todos: [todo],
+      };
+      renderComponent(overrideProps);
+
+      overrideProps.todos.forEach(({ id }) => {
+        const isLoading = defaultProps.todoCurrentIds.includes(id);
+        expect(isLoading).toBeFalsy();
       });
     });
   });
