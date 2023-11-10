@@ -1,42 +1,21 @@
-/* eslint-disable no-console */
-import './App.css';
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
-import reactLogo from '@assets/react.svg';
-import viteLogo from '@assets/vite.svg';
-import { useEffect, useState } from 'react';
+import { GlobalStyles } from '@/styles';
+
+import { router } from './router';
+import { store } from './store';
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  useEffect(() => {
-    fetch(`${import.meta.env.VITE_API_URL}/todo`)
-      .then((d) => d.json())
-      .then((d) => {
-        console.log(d);
-      })
-      .catch((e) => console.log(e));
-  }, []);
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button type="button" onClick={() => setCount((prevCount) => prevCount + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+      <ToastContainer />
+      <GlobalStyles />
+
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
     </>
   );
 }
