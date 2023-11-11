@@ -1,15 +1,15 @@
-import { MouseEvent, ReactNode, useCallback, useEffect, useRef } from 'react';
+import { MouseEvent, PropsWithChildren, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import FocusLock from 'react-focus-lock';
 
 import * as S from './Modal.styled';
 
-interface ModalProps {
+interface ModalProps extends PropsWithChildren {
   isShow: boolean;
-  children: ReactNode;
   onClose: () => void;
 }
-function Modal({ isShow, children, onClose }: ModalProps) {
+
+function Modal({ isShow, onClose, children }: ModalProps) {
   const backdropRef = useRef(null);
 
   const handleEscapeKey = useCallback(({ key }: KeyboardEvent) => (key === 'Escape' ? onClose() : null), [onClose]);

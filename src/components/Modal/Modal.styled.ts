@@ -11,7 +11,7 @@ export const Section = styled.section`
   border: 2px solid rgb(240, 240, 240);
   border-radius: 12px;
 `;
-export const Backdrop = styled.div`
+export const Backdrop = styled.div.attrs({ 'aria-label': 'modal-backdrop' })`
   position: absolute;
   width: 100vw;
   height: 100vh;
