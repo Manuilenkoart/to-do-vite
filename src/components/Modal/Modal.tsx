@@ -1,5 +1,6 @@
 import { MouseEvent, ReactNode, useCallback, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import FocusLock from 'react-focus-lock';
 
 import * as S from './Modal.styled';
 
@@ -32,7 +33,9 @@ function Modal({ isShow, children, onClose }: ModalProps) {
     isShow &&
     createPortal(
       <S.Backdrop ref={backdropRef} onClick={handleBackdropClick}>
-        <S.Section role="dialog">{children}</S.Section>
+        <S.Section role="dialog">
+          <FocusLock>{children}</FocusLock>
+        </S.Section>
       </S.Backdrop>,
       document.body
     )
