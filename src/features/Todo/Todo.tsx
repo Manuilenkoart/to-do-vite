@@ -107,11 +107,10 @@ function TodoPage() {
           onDeleteClick={handleDeleteTodoClick}
         />
       </S.Section>
-      {isTodoModalOpen && (
-        <Modal>
-          <TodoForm initialValues={initialFormTodo} onSubmit={handleSubmitFormTodo} onCancel={handleCancelModalClick} />
-        </Modal>
-      )}
+
+      <Modal isShow={isTodoModalOpen} onClose={handleCancelModalClick}>
+        <TodoForm initialValues={initialFormTodo} onSubmit={handleSubmitFormTodo} onCancel={handleCancelModalClick} />
+      </Modal>
     </>
   );
 }
