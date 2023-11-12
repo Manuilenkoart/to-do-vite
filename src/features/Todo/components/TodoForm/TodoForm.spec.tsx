@@ -22,9 +22,6 @@ const renderTodoForm = (overrideProps?: OverrideProps, options?: RenderOptions) 
   const titleInput = screen.getByLabelText(/title/i);
   const textInput = screen.getByLabelText(/description/i);
 
-  user.clear(titleInput);
-  user.clear(textInput);
-
   const allButtons = screen.getAllByRole('button');
   const submitButton = allButtons.find((button) => button.getAttribute('type') === 'submit');
 
@@ -186,9 +183,12 @@ describe('<TodoForm />', () => {
       const updatedValues = {
         id: '1',
         title: 'myTitleUpdated',
-        text: 'myUpdated',
+        text: 'myTextUpdated',
       };
       const { user, submitButton, titleInput, textInput } = renderTodoForm({ initialValues: todo });
+
+      user.clear(titleInput);
+      user.clear(textInput);
 
       await user.type(titleInput, updatedValues.title);
       await user.type(textInput, updatedValues.text);
