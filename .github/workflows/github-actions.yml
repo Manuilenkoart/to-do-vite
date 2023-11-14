@@ -1,8 +1,8 @@
-name: GitHub Actions
+name: GitHub-Actions
 
 on: 
-  push: // runs workflow when push a commit or tag
-    paths: // workflow will only run when a push that includes a change in files
+  push: # runs workflow when push a commit or tag
+    paths: # workflow will only run when a push that includes a change in files
       ['**.ts', '**.tsx', '**.spec']
 
 jobs:
