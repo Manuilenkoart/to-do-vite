@@ -8,41 +8,48 @@ on:
       - '**.spec'
       - '**.yml'
 
-# Define a reusable variable for common steps
-jobs:
-  common-steps:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
-
-      - name: Install dependencies
-        run: npm install
-
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: ./.github/actions/common-steps.yml
-
-      - name: Build
-        run: npm run build
-
-  code-quality:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: npm
+      - run: npm install
+      - run: npm run build
+      - name: Cache node modules
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: >-
+            ${{ runner.os }}-build-${{ env.cache-name }}-${{
+            hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: built-project
+          path: build
+          retention-days: 1
+  test:
+    needs: build
     runs-on: ubuntu-latest
-
     steps:
-      - uses: ./.github/actions/common-steps.yml
-
-      - name: Lint
-        run: npm run lint
-
-      - name: Unit Test
-        run: npm run test
+      - uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+          cache: npm
+      - name: Download build for testing
+        uses: actions/download-artifact@v3
+        with:
+          name: built-project
+      - run: npm install
+      - run: npm run pipeline-test
