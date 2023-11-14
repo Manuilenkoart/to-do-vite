@@ -30,10 +30,6 @@ jobs:
     steps:
       - name: Get repository code
         uses: actions/checkout@v3
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
       - name: Cache node-modules
         uses: actions/cache@v3
         with:
@@ -50,6 +46,10 @@ jobs:
     steps:
       - name: Get repository code
         uses: actions/checkout@v3
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
       - name: Cache node-modules
         uses: actions/cache@v3
         with:
