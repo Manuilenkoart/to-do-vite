@@ -16,30 +16,36 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Get repository code
+      - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Cache node-modules
         uses: actions/cache@v3
         with:
           path: ~/.npm
           key: cache-key-node-modules-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install dependencies
         run: npm ci
+
       - name: Lint app
         run: npm run lint
 
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Get repository code
+      - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Cache node-modules
         uses: actions/cache@v3
         with:
           path: ~/.npm
           key: cache-key-node-modules-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install dependencies
         run: npm ci
+
       - name: Unit test
         run: npm run test
 
@@ -47,20 +53,25 @@ jobs:
     needs: [lint, test]
     runs-on: ubuntu-latest
     steps:
-      - name: Get repository code
+      - name: Checkout code
         uses: actions/checkout@v3
+
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
+
       - name: Cache node-modules
         uses: actions/cache@v3
         with:
           path: ~/.npm
           key: cache-key-node-modules-${{ hashFiles('**/package-lock.json') }}
+
       - name: Install dependencies
         run: npm ci
+
       - name: Build app
         run: npm run build
+        
       - name: Deploying app
         run: echo Deploying app...
