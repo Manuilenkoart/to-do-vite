@@ -3,7 +3,9 @@ name: GitHub-Actions
 on: 
   push: # runs workflow when push a commit or tag
     paths: # workflow will only run when a push that includes a change in files
-      ['**.ts', '**.tsx', '**.spec']
+      - '**.ts'
+      - '**.tsx'
+      - '**.spec'
 
 jobs:
   Install:
@@ -23,16 +25,21 @@ jobs:
 
   Build:
     needs: Install
+    runs-on: ubuntu-latest
+    steps:
       - name: Build
         run: npm run build
   
   Lint:
     needs: Build
+    runs-on: ubuntu-latest
+    steps:
       - name: Lint
         run: npm run lint
 
   Unit_Test:
     needs: Build
+    runs-on: ubuntu-latest
+    steps:
       - name: Unit Test
         run: npm run test
-
