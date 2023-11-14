@@ -2,12 +2,15 @@ name: CI
 
 on:
   push:
+    branches:
+      - main
     paths:
       - '**.html'
       - '**.ts'
       - '**.tsx'
       - '**.spec'
       - '**.yml'
+  workflow_dispatch:
 
 jobs:
   lint:
