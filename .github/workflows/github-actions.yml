@@ -1,6 +1,6 @@
 name: CI/CD
 
-on: 
+on:
   push:
     paths:
       - '**.ts'
@@ -8,8 +8,9 @@ on:
       - '**.spec'
       - '**.yml'
 
+# Define a reusable variable for common steps
 jobs:
-  build:
+  common-steps:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,8 +25,21 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ./.github/actions/common-steps.yml
+
       - name: Build
         run: npm run build
+
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ./.github/actions/common-steps.yml
 
       - name: Lint
         run: npm run lint
