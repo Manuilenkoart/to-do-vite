@@ -1,13 +1,12 @@
 name: GitHub Actions
 
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+on: 
+  push: // runs workflow when push a commit or tag
+    paths: // workflow will only run when a push that includes a change in files
+      ['**.ts', '**.tsx', '**.spec']
 
 jobs:
-  init:
+  Install:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,11 +21,18 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+  Build:
+    needs: Install
       - name: Build
         run: npm run build
+  
+  Lint:
+    needs: Build
+      - name: Lint
+        run: npm run lint
 
+  Unit_Test:
+    needs: Build
       - name: Unit Test
         run: npm run test
 
-      - name: Lint
-        run: npm run lint
