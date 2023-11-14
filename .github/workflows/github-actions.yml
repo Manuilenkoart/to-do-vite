@@ -6,6 +6,7 @@ on:
       - '**.ts'
       - '**.tsx'
       - '**.spec'
+      - '**.yml'
 
 jobs:
   Install:
