@@ -1,4 +1,4 @@
-name: App actions
+name: CI/CD
 
 on: 
   push:
@@ -9,7 +9,7 @@ on:
       - '**.yml'
 
 jobs:
-  Install:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -24,24 +24,11 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-  Build:
-    needs: Install
-    runs-on: ubuntu-latest
-    steps:
       - name: Build
         run: npm run build
-        working-directory: '/home/runner/work/to-do-vite'
-  
-  Lint:
-    needs: Build
-    runs-on: ubuntu-latest
-    steps:
+
       - name: Lint
         run: npm run lint
 
-  Unit_Test:
-    needs: Build
-    runs-on: ubuntu-latest
-    steps:
       - name: Unit Test
         run: npm run test
