@@ -2,15 +2,9 @@ import { AxiosRequestHeaders } from 'axios';
 import { vi } from 'vitest';
 
 import { API_HANDLERS } from '@/api';
-import { newToto, thunkStatus, todo } from '@/test/__mock__';
+import { newToto, todo } from '@/test/__mock__';
 
-import {
-  addTodoFetch,
-  deleteTodoFetch,
-  getTodosFetch,
-  todoThunkActionType,
-  updateTodoFetch,
-} from '../todoActionCreators';
+import { addTodoFetch, deleteTodoFetch, getTodosFetch, updateTodoFetch } from '../todoActionCreators';
 
 export const responseResolved = <T>(data: T) => ({
   data,
@@ -42,8 +36,8 @@ describe('todoActionCreators', () => {
 
       const [pending, fulfilled] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(todoThunkActionType.getAll + thunkStatus.pending);
-      expect(fulfilled[0].type).toBe(todoThunkActionType.getAll + thunkStatus.fulfilled);
+      expect(pending[0].type).toBe(getTodosFetch.pending.type);
+      expect(fulfilled[0].type).toBe(getTodosFetch.fulfilled.type);
       expect(fulfilled[0].payload).toEqual([todo]);
     });
 
@@ -59,8 +53,8 @@ describe('todoActionCreators', () => {
 
       const [pending, rejected] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(todoThunkActionType.getAll + thunkStatus.pending);
-      expect(rejected[0].type).toBe(todoThunkActionType.getAll + thunkStatus.rejected);
+      expect(pending[0].type).toBe(getTodosFetch.pending.type);
+      expect(rejected[0].type).toBe(getTodosFetch.rejected.type);
       expect(rejected[0].payload).toBe(responseRejected.message);
       expect(rejected[0].meta.rejectedWithValue).toBe(true);
     });
@@ -81,8 +75,8 @@ describe('todoActionCreators', () => {
 
       const [pending, fulfilled] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(todoThunkActionType.delete + thunkStatus.pending);
-      expect(fulfilled[0].type).toBe(todoThunkActionType.delete + thunkStatus.fulfilled);
+      expect(pending[0].type).toBe(deleteTodoFetch.pending.type);
+      expect(fulfilled[0].type).toBe(deleteTodoFetch.fulfilled.type);
       expect(fulfilled[0].payload).toEqual(todo);
     });
 
@@ -98,8 +92,8 @@ describe('todoActionCreators', () => {
 
       const [pending, rejected] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(todoThunkActionType.delete + thunkStatus.pending);
-      expect(rejected[0].type).toBe(todoThunkActionType.delete + thunkStatus.rejected);
+      expect(pending[0].type).toBe(deleteTodoFetch.pending.type);
+      expect(rejected[0].type).toBe(deleteTodoFetch.rejected.type);
       expect(rejected[0].payload).toBe(responseRejected.message);
       expect(rejected[0].meta.rejectedWithValue).toBe(true);
     });
@@ -120,8 +114,8 @@ describe('todoActionCreators', () => {
 
       const [pending, fulfilled] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(todoThunkActionType.add + thunkStatus.pending);
-      expect(fulfilled[0].type).toBe(todoThunkActionType.add + thunkStatus.fulfilled);
+      expect(pending[0].type).toBe(addTodoFetch.pending.type);
+      expect(fulfilled[0].type).toBe(addTodoFetch.fulfilled.type);
       expect(fulfilled[0].payload).toEqual(todo);
     });
 
@@ -137,8 +131,8 @@ describe('todoActionCreators', () => {
 
       const [pending, rejected] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(todoThunkActionType.add + thunkStatus.pending);
-      expect(rejected[0].type).toBe(todoThunkActionType.add + thunkStatus.rejected);
+      expect(pending[0].type).toBe(addTodoFetch.pending.type);
+      expect(rejected[0].type).toBe(addTodoFetch.rejected.type);
       expect(rejected[0].payload).toBe(responseRejected.message);
       expect(rejected[0].meta.rejectedWithValue).toBe(true);
     });
@@ -159,8 +153,8 @@ describe('todoActionCreators', () => {
 
       const [pending, fulfilled] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(todoThunkActionType.update + thunkStatus.pending);
-      expect(fulfilled[0].type).toBe(todoThunkActionType.update + thunkStatus.fulfilled);
+      expect(pending[0].type).toBe(updateTodoFetch.pending.type);
+      expect(fulfilled[0].type).toBe(updateTodoFetch.fulfilled.type);
       expect(fulfilled[0].payload).toEqual(todo);
     });
 
@@ -176,8 +170,8 @@ describe('todoActionCreators', () => {
 
       const [pending, rejected] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(todoThunkActionType.update + thunkStatus.pending);
-      expect(rejected[0].type).toBe(todoThunkActionType.update + thunkStatus.rejected);
+      expect(pending[0].type).toBe(updateTodoFetch.pending.type);
+      expect(rejected[0].type).toBe(updateTodoFetch.rejected.type);
       expect(rejected[0].payload).toBe(responseRejected.message);
       expect(rejected[0].meta.rejectedWithValue).toBe(true);
     });

@@ -1,5 +1,6 @@
 import { describe, it } from 'vitest';
 
+import { getTodosFetch } from '@/store';
 import { store } from '@/store/store';
 import { todo } from '@/test/__mock__';
 
@@ -26,5 +27,9 @@ describe('todoSlice', () => {
     expect(state.entities).toEqual({
       [todo.id]: todo,
     });
+  });
+
+  it('should change state status with pending', () => {
+    todoReducer(initialState, { type: getTodosFetch.pending.type });
   });
 });

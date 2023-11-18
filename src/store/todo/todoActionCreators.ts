@@ -7,15 +7,9 @@ const handleCommonError = (error: AxiosError<{ error: string }>): string => {
   const message = error.response?.data?.error || error.message;
   return message;
 };
-export const todoThunkActionType = {
-  getAll: 'todos/getTodosFetch',
-  delete: 'todos/deleteTodoFetch',
-  add: 'todos/addTodoFetch',
-  update: 'todos/updateTodoFetch',
-} as const;
 
 export const getTodosFetch = createAsyncThunk<Todo[], undefined, { rejectValue: string }>(
-  todoThunkActionType.getAll,
+  'todos/getTodosFetch',
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await API_HANDLERS.Todo.All.Get();
@@ -30,7 +24,7 @@ export const getTodosFetch = createAsyncThunk<Todo[], undefined, { rejectValue: 
 );
 
 export const deleteTodoFetch = createAsyncThunk<Todo, Todo['id'], { rejectValue: string }>(
-  todoThunkActionType.delete,
+  'todos/deleteTodoFetch',
   async (id: Todo['id'], { rejectWithValue }) => {
     try {
       const { data } = await API_HANDLERS.Todo.Delete.Delete(id);
@@ -45,7 +39,7 @@ export const deleteTodoFetch = createAsyncThunk<Todo, Todo['id'], { rejectValue:
 );
 
 export const addTodoFetch = createAsyncThunk<Todo, NewTodo, { rejectValue: string }>(
-  todoThunkActionType.add,
+  'todos/addTodoFetch',
   async (todo: NewTodo, { rejectWithValue }) => {
     try {
       const { data } = await API_HANDLERS.Todo.Create.Post(todo);
@@ -60,7 +54,7 @@ export const addTodoFetch = createAsyncThunk<Todo, NewTodo, { rejectValue: strin
 );
 
 export const updateTodoFetch = createAsyncThunk<Todo, Todo, { rejectValue: string }>(
-  todoThunkActionType.update,
+  'todos/updateTodoFetch',
   async (todo: Todo, { rejectWithValue }) => {
     try {
       const { data } = await API_HANDLERS.Todo.Update.Put(todo);
