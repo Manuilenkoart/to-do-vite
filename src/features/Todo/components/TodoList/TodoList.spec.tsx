@@ -2,7 +2,8 @@ import { render, RenderOptions, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { it, vi } from 'vitest';
 
-import { todo } from '../../__mock__';
+import { todo } from '@/test/__mock__';
+
 import { EmptyTodoList } from '../EmptyTodoList';
 import TodoList from './TodoList';
 

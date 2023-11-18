@@ -11,3 +11,9 @@ export const todo: Todo = {
   title: 'title',
   text: 'text',
 };
+
+export const thunkStatus = {
+  pending: '/pending',
+  fulfilled: '/fulfilled',
+  rejected: '/rejected',
+} as const;

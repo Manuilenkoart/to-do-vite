@@ -7,9 +7,12 @@ const handleCommonError = (error: AxiosError<{ error: string }>): string => {
   const message = error.response?.data?.error || error.message;
   return message;
 };
+export const todoThunkActionType = {
+  getAll: 'todos/getTodosFetch',
+} as const;
 
 export const getTodosFetch = createAsyncThunk<Todo[], undefined, { rejectValue: string }>(
-  'todos/getTodosFetch',
+  todoThunkActionType.getAll,
   async (_, { rejectWithValue }) => {
     try {
       const { data } = await API_HANDLERS.Todo.All.Get();

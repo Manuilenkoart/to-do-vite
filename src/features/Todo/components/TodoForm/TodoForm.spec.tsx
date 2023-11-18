@@ -3,8 +3,8 @@ import userEvent from '@testing-library/user-event';
 import { it, vi } from 'vitest';
 
 import { generateStringLength } from '@/test';
+import { initialTodo, todo } from '@/test/__mock__';
 
-import { initialTodo, todo } from '../../__mock__';
 import { FormSchemaErrorMessage } from './FormSchema';
 import TodoForm from './TodoForm';
 
