@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import { createEntityAdapter, createSlice, current, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { createEntityAdapter, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
 
 import { InitialAdapterState, Matcher, MatcherRejected, Todo } from '@/api';
 
@@ -32,7 +32,6 @@ const todoSlice = createSlice({
         id: payload.id,
         changes: payload,
       });
-      console.log('after', current(state));
     });
 
     addMatcher<Matcher>(isPending, (state, { meta: { requestStatus, arg } }) => {
