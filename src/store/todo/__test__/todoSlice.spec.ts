@@ -22,7 +22,8 @@ describe('todoSlice', () => {
 
   it('should change state status with pending', () => {
     const action = {
-      type: getTodosFetch.pending.type,
+      type: '/pending',
+      payload: undefined,
       meta: {
         requestStatus: 'pending',
         requestId: 'requestId',
@@ -38,14 +39,32 @@ describe('todoSlice', () => {
     expect(error).toBe('');
   });
 
+  it('should change state status with fulfilled', () => {
+    const action = {
+      type: '/fulfilled',
+      payload: todo,
+      meta: {
+        requestStatus: 'fulfilled',
+        requestId: 'requestId',
+        arg: todo,
+      },
+    };
+    const { status, currentIds, error } = todoReducer(initialState, action);
+
+    expect(status).toBe('fulfilled');
+    expect(currentIds).toEqual([]);
+    expect(error).toBe('');
+  });
+
   it('should change state status with rejected', () => {
     const action = {
-      type: getTodosFetch.rejected.type,
+      type: '/rejected',
+      payload: responseRejected.message,
       meta: {
         requestStatus: 'rejected',
         requestId: 'requestId',
+        arg: todo,
       },
-      payload: responseRejected.message,
     };
     const { ids, entities, status, currentIds, error } = todoReducer(initialState, action);
 
