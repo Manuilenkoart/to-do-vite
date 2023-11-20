@@ -3,10 +3,9 @@ import { describe, it } from 'vitest';
 
 import { InitialAdapterState, Todo } from '@/api';
 import { addTodoFetch, deleteTodoFetch, getTodosFetch, updateTodoFetch } from '@/store';
-import { todo } from '@/test/__mock__';
+import { responseRejected, todo } from '@/test';
 
 import todoReducer, { initialState } from '../todoSlice';
-import { responseRejected } from './todoActionCreators.spec';
 
 const preloadState: EntityState<Todo> & InitialAdapterState = {
   ids: [todo.id],

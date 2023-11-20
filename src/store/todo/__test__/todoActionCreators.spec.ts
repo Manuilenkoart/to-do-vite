@@ -1,24 +1,9 @@
-import { AxiosRequestHeaders } from 'axios';
 import { vi } from 'vitest';
 
 import { API_HANDLERS } from '@/api';
-import { newToto, todo } from '@/test/__mock__';
+import { newToto, responseRejected, responseResolved, todo } from '@/test';
 
 import { addTodoFetch, deleteTodoFetch, getTodosFetch, updateTodoFetch } from '../todoActionCreators';
-
-export const responseResolved = <T>(data: T) => ({
-  data,
-  status: 200,
-  statusText: 'OK',
-  headers: {},
-  config: {
-    headers: {} as AxiosRequestHeaders,
-  },
-});
-
-export const responseRejected = {
-  message: 'Server error',
-};
 
 describe('todoActionCreators', () => {
   describe('getTodosFetch', () => {

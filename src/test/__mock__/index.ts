@@ -1,3 +1,5 @@
+import { AxiosRequestHeaders } from 'axios';
+
 import { NewTodo, Todo } from '@/api';
 
 export const initialTodo: Todo = {
@@ -16,3 +18,17 @@ export const todo: Todo = {
   title: 'title',
   text: 'text',
 };
+
+export const responseRejected = {
+  message: 'Server error',
+};
+
+export const responseResolved = <T>(data: T) => ({
+  data,
+  status: 200,
+  statusText: 'OK',
+  headers: {},
+  config: {
+    headers: {} as AxiosRequestHeaders,
+  },
+});
