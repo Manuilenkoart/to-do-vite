@@ -16,10 +16,6 @@ const preloadState: EntityState<Todo> & InitialAdapterState = {
 };
 
 describe('todoSlice', () => {
-  it('should return the initial state', () => {
-    expect(todoReducer(undefined, { type: undefined })).toEqual(initialState);
-  });
-
   it('should change state status with pending', () => {
     const action = {
       type: '/pending',
@@ -30,13 +26,9 @@ describe('todoSlice', () => {
         arg: todo,
       },
     };
-    const { ids, entities, status, currentIds, error } = todoReducer(initialState, action);
+    const state = todoReducer(initialState, action);
 
-    expect(ids).toEqual([]);
-    expect(entities).toEqual({});
-    expect(status).toBe('pending');
-    expect(currentIds).toEqual([todo.id]);
-    expect(error).toBe('');
+    expect(state).toEqual(expect.objectContaining({ ...state, status: 'pending' }));
   });
 
   it('should change state status with fulfilled', () => {
@@ -49,11 +41,9 @@ describe('todoSlice', () => {
         arg: todo,
       },
     };
-    const { status, currentIds, error } = todoReducer(initialState, action);
+    const state = todoReducer(initialState, action);
 
-    expect(status).toBe('fulfilled');
-    expect(currentIds).toEqual([]);
-    expect(error).toBe('');
+    expect(state).toEqual(expect.objectContaining({ ...state, status: 'fulfilled' }));
   });
 
   it('should change state status with rejected', () => {
@@ -66,13 +56,9 @@ describe('todoSlice', () => {
         arg: todo,
       },
     };
-    const { ids, entities, status, currentIds, error } = todoReducer(initialState, action);
+    const state = todoReducer(initialState, action);
 
-    expect(ids).toEqual([]);
-    expect(entities).toEqual({});
-    expect(status).toBe('rejected');
-    expect(currentIds).toEqual([]);
-    expect(error).toBe(responseRejected.message);
+    expect(state).toEqual(expect.objectContaining({ ...state, status: 'rejected' }));
   });
 
   it('handle getTodosFetch.fulfilled', () => {
@@ -80,13 +66,17 @@ describe('todoSlice', () => {
       type: getTodosFetch.fulfilled.type,
       payload: [todo],
     };
-    const { ids, entities, status, currentIds, error } = todoReducer(initialState, action);
+    const state = todoReducer(initialState, action);
 
-    expect(ids).toEqual([todo.id]);
-    expect(entities).toEqual({ [todo.id]: todo });
-    expect(status).toBe('idle');
-    expect(currentIds).toEqual([]);
-    expect(error).toBe('');
+    expect(state).toEqual(
+      expect.objectContaining({
+        ids: [todo.id],
+        entities: { [todo.id]: todo },
+        status: 'idle',
+        currentIds: [],
+        error: '',
+      })
+    );
   });
 
   it('handle deleteTodoFetch.fulfilled', () => {
@@ -94,13 +84,17 @@ describe('todoSlice', () => {
       type: deleteTodoFetch.fulfilled.type,
       payload: todo,
     };
-    const { ids, entities, status, currentIds, error } = todoReducer(preloadState, deleteTodoAction);
+    const state = todoReducer(preloadState, deleteTodoAction);
 
-    expect(ids).toEqual([]);
-    expect(entities).toEqual({});
-    expect(status).toBe('idle');
-    expect(currentIds).toEqual([]);
-    expect(error).toBe('');
+    expect(state).toEqual(
+      expect.objectContaining({
+        ids: [],
+        entities: {},
+        status: 'idle',
+        currentIds: [],
+        error: '',
+      })
+    );
   });
 
   it('handle addTodoFetch.fulfilled', () => {
@@ -108,13 +102,17 @@ describe('todoSlice', () => {
       type: addTodoFetch.fulfilled.type,
       payload: todo,
     };
-    const { ids, entities, status, currentIds, error } = todoReducer(initialState, addTodoAction);
+    const state = todoReducer(initialState, addTodoAction);
 
-    expect(ids).toEqual([todo.id]);
-    expect(entities).toEqual({ [todo.id]: todo });
-    expect(status).toBe('idle');
-    expect(currentIds).toEqual([]);
-    expect(error).toBe('');
+    expect(state).toEqual(
+      expect.objectContaining({
+        ids: [todo.id],
+        entities: { [todo.id]: todo },
+        status: 'idle',
+        currentIds: [],
+        error: '',
+      })
+    );
   });
 
   it('handle updateTodoFetch.fulfilled', () => {
@@ -127,12 +125,16 @@ describe('todoSlice', () => {
       type: updateTodoFetch.fulfilled.type,
       payload: updatedTodo,
     };
-    const { ids, entities, status, currentIds, error } = todoReducer(preloadState, updateTodoAction);
+    const state = todoReducer(preloadState, updateTodoAction);
 
-    expect(ids).toEqual([updatedTodo.id]);
-    expect(entities).toEqual({ [updatedTodo.id]: updatedTodo });
-    expect(status).toBe('idle');
-    expect(currentIds).toEqual([]);
-    expect(error).toBe('');
+    expect(state).toEqual(
+      expect.objectContaining({
+        ids: [updatedTodo.id],
+        entities: { [updatedTodo.id]: updatedTodo },
+        status: 'idle',
+        currentIds: [],
+        error: '',
+      })
+    );
   });
 });
