@@ -1,4 +1,4 @@
-import { AxiosRequestHeaders } from 'axios';
+import { AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 
 import { NewTodo, Todo } from '@/api';
 
@@ -23,12 +23,10 @@ export const responseRejected = {
   message: 'Server error',
 };
 
-export const responseResolved = <T>(data: T) => ({
+export const responseResolved = <T, D>(data: T): AxiosResponse<T, D> => ({
   data,
   status: 200,
   statusText: 'OK',
   headers: {},
-  config: {
-    headers: {} as AxiosRequestHeaders,
-  },
+  config: {} as InternalAxiosRequestConfig<D>,
 });

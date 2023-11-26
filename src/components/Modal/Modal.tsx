@@ -34,7 +34,7 @@ function Modal({ isShow, onClose, children }: ModalProps) {
     createPortal(
       <S.Backdrop ref={backdropRef} onClick={handleBackdropClick}>
         <S.Section role="dialog">
-          <FocusLock>{children}</FocusLock>
+          <FocusLock autoFocus={false}>{children}</FocusLock>
         </S.Section>
       </S.Backdrop>,
       document.body

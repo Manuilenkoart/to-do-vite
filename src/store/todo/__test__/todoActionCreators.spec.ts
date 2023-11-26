@@ -6,11 +6,14 @@ import { newToto, responseRejected, responseResolved, todo } from '@/test';
 import { addTodoFetch, deleteTodoFetch, getTodosFetch, updateTodoFetch } from '../todoActionCreators';
 
 describe('todoActionCreators', () => {
+  beforeEach(() => vi.clearAllMocks());
+
   describe('getTodosFetch', () => {
     const spyTodoAllGet = vi.spyOn(API_HANDLERS.Todo.All, 'Get');
 
-    it('can be resolved', async () => {
-      spyTodoAllGet.mockResolvedValue(responseResolved([todo]));
+    it('resolved', async () => {
+      const mockTodoResponse = [todo];
+      spyTodoAllGet.mockResolvedValue(responseResolved(mockTodoResponse));
       const dispatch = vi.fn();
 
       await getTodosFetch()(
@@ -19,14 +22,14 @@ describe('todoActionCreators', () => {
         () => {}
       );
 
-      const [pending, fulfilled] = dispatch.mock.calls;
+      const [_, fulfilled] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(getTodosFetch.pending.type);
-      expect(fulfilled[0].type).toBe(getTodosFetch.fulfilled.type);
-      expect(fulfilled[0].payload).toEqual([todo]);
+      expect(spyTodoAllGet).toHaveBeenCalledTimes(1);
+      expect(fulfilled[0].payload).toEqual(mockTodoResponse);
+      expect(fulfilled[0].meta.rejectedWithValue).not.toBe(true);
     });
 
-    it('can be rejected', async () => {
+    it('rejected', async () => {
       spyTodoAllGet.mockRejectedValue(responseRejected);
       const dispatch = vi.fn();
 
@@ -36,10 +39,9 @@ describe('todoActionCreators', () => {
         () => {}
       );
 
-      const [pending, rejected] = dispatch.mock.calls;
+      const [_, rejected] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(getTodosFetch.pending.type);
-      expect(rejected[0].type).toBe(getTodosFetch.rejected.type);
+      expect(spyTodoAllGet).toHaveBeenCalledTimes(1);
       expect(rejected[0].payload).toBe(responseRejected.message);
       expect(rejected[0].meta.rejectedWithValue).toBe(true);
     });
@@ -48,7 +50,7 @@ describe('todoActionCreators', () => {
   describe('deleteTodoFetch', () => {
     const spyTodoDelete = vi.spyOn(API_HANDLERS.Todo.Delete, 'Delete');
 
-    it('can be resolved', async () => {
+    it('resolved', async () => {
       spyTodoDelete.mockResolvedValue(responseResolved(todo));
       const dispatch = vi.fn();
 
@@ -58,14 +60,14 @@ describe('todoActionCreators', () => {
         () => {}
       );
 
-      const [pending, fulfilled] = dispatch.mock.calls;
+      const [_, fulfilled] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(deleteTodoFetch.pending.type);
-      expect(fulfilled[0].type).toBe(deleteTodoFetch.fulfilled.type);
+      expect(spyTodoDelete).toHaveBeenCalledWith(todo.id);
       expect(fulfilled[0].payload).toEqual(todo);
+      expect(fulfilled[0].meta.rejectedWithValue).not.toBe(true);
     });
 
-    it('can be rejected', async () => {
+    it('rejected', async () => {
       spyTodoDelete.mockRejectedValue(responseRejected);
       const dispatch = vi.fn();
 
@@ -75,10 +77,9 @@ describe('todoActionCreators', () => {
         () => {}
       );
 
-      const [pending, rejected] = dispatch.mock.calls;
+      const [_, rejected] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(deleteTodoFetch.pending.type);
-      expect(rejected[0].type).toBe(deleteTodoFetch.rejected.type);
+      expect(spyTodoDelete).toHaveBeenCalledWith(todo.id);
       expect(rejected[0].payload).toBe(responseRejected.message);
       expect(rejected[0].meta.rejectedWithValue).toBe(true);
     });
@@ -87,7 +88,7 @@ describe('todoActionCreators', () => {
   describe('addTodoFetch', () => {
     const spyTodoAdd = vi.spyOn(API_HANDLERS.Todo.Create, 'Post');
 
-    it('can be resolved', async () => {
+    it('resolved', async () => {
       spyTodoAdd.mockResolvedValue(responseResolved(todo));
       const dispatch = vi.fn();
 
@@ -97,14 +98,14 @@ describe('todoActionCreators', () => {
         () => {}
       );
 
-      const [pending, fulfilled] = dispatch.mock.calls;
+      const [_, fulfilled] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(addTodoFetch.pending.type);
-      expect(fulfilled[0].type).toBe(addTodoFetch.fulfilled.type);
+      expect(spyTodoAdd).toHaveBeenCalledWith(newToto);
       expect(fulfilled[0].payload).toEqual(todo);
+      expect(fulfilled[0].meta.rejectedWithValue).not.toBe(true);
     });
 
-    it('can be rejected', async () => {
+    it('rejected', async () => {
       spyTodoAdd.mockRejectedValue(responseRejected);
       const dispatch = vi.fn();
 
@@ -114,10 +115,9 @@ describe('todoActionCreators', () => {
         () => {}
       );
 
-      const [pending, rejected] = dispatch.mock.calls;
+      const [_, rejected] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(addTodoFetch.pending.type);
-      expect(rejected[0].type).toBe(addTodoFetch.rejected.type);
+      expect(spyTodoAdd).toHaveBeenCalledWith(newToto);
       expect(rejected[0].payload).toBe(responseRejected.message);
       expect(rejected[0].meta.rejectedWithValue).toBe(true);
     });
@@ -126,7 +126,7 @@ describe('todoActionCreators', () => {
   describe('updateTodoFetch', () => {
     const spyTodoUpdate = vi.spyOn(API_HANDLERS.Todo.Update, 'Put');
 
-    it('can be resolved', async () => {
+    it('resolved', async () => {
       spyTodoUpdate.mockResolvedValue(responseResolved(todo));
       const dispatch = vi.fn();
 
@@ -136,14 +136,14 @@ describe('todoActionCreators', () => {
         () => {}
       );
 
-      const [pending, fulfilled] = dispatch.mock.calls;
+      const [_, fulfilled] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(updateTodoFetch.pending.type);
-      expect(fulfilled[0].type).toBe(updateTodoFetch.fulfilled.type);
+      expect(spyTodoUpdate).toHaveBeenCalledWith(todo);
       expect(fulfilled[0].payload).toEqual(todo);
+      expect(fulfilled[0].meta.rejectedWithValue).not.toBe(true);
     });
 
-    it('can be rejected', async () => {
+    it('rejected', async () => {
       spyTodoUpdate.mockRejectedValue(responseRejected);
       const dispatch = vi.fn();
 
@@ -153,10 +153,9 @@ describe('todoActionCreators', () => {
         () => {}
       );
 
-      const [pending, rejected] = dispatch.mock.calls;
+      const [_, rejected] = dispatch.mock.calls;
 
-      expect(pending[0].type).toBe(updateTodoFetch.pending.type);
-      expect(rejected[0].type).toBe(updateTodoFetch.rejected.type);
+      expect(spyTodoUpdate).toHaveBeenCalledWith(todo);
       expect(rejected[0].payload).toBe(responseRejected.message);
       expect(rejected[0].meta.rejectedWithValue).toBe(true);
     });

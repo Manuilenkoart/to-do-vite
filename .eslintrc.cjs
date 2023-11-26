@@ -31,6 +31,22 @@ module.exports = {
       'error',
       {
         argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
+      },
+    ],
+    '@typescript-eslint/naming-convention': [
+      'error',
+      {
+        selector: 'variable',
+        format: ['camelCase', 'PascalCase', 'UPPER_CASE'],
+        leadingUnderscore: 'allow',
+      },
+    ],
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {
+        argsIgnorePattern: '^_',
+        varsIgnorePattern: '^_',
       },
     ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.spec.ts', '**/*.spec.tsx', '**/test/*'] }],
