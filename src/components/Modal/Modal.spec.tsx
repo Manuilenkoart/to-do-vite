@@ -47,12 +47,11 @@ describe('<Modal />', () => {
     });
     it('has closed the modal', async () => {
       const { user } = renderComponent();
+      const modal = screen.getByRole('dialog');
 
-      expect(screen.getByRole('dialog')).toBeInTheDocument();
+      if (modal?.parentElement) await user.click(modal.parentElement);
 
-      await user.click(screen.getByLabelText('modal-backdrop'));
-
-      expect(defaultProps.onClose).toHaveBeenCalled();
+      expect(defaultProps.onClose).toHaveBeenCalledTimes(1);
     });
   });
 });
