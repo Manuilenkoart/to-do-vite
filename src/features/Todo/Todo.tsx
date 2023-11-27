@@ -78,10 +78,6 @@ function TodoPage() {
     [dispatch]
   );
 
-  const handleCancelModalClick = useCallback(() => {
-    handleTodoModalClose();
-  }, [handleTodoModalClose]);
-
   const handleAddTodoClick = () => {
     setInitialFormTodo(initialTodo);
     handleTodoModalOpen();
@@ -108,8 +104,8 @@ function TodoPage() {
         />
       </S.Section>
 
-      <Modal isShow={isTodoModalOpen} onClose={handleCancelModalClick}>
-        <TodoForm initialValues={initialFormTodo} onSubmit={handleSubmitFormTodo} onCancel={handleCancelModalClick} />
+      <Modal isShow={isTodoModalOpen} onClose={handleTodoModalClose}>
+        <TodoForm initialValues={initialFormTodo} onSubmit={handleSubmitFormTodo} onCancel={handleTodoModalClose} />
       </Modal>
     </>
   );
