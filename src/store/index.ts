@@ -1,5 +1,5 @@
 export { useAppDispatch, useAppSelector } from './hooks';
-export { store } from './store';
+export { rootReducer, setupStore } from './store';
 export {
   addTodoFetch,
   deleteTodoFetch,

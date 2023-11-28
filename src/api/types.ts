@@ -1,12 +1,13 @@
 import { AnyAction, EntityId } from '@reduxjs/toolkit';
 import { AxiosResponse } from 'axios';
 
-import { store } from '@/store';
+import { rootReducer, setupStore } from '@/store';
 
 export type AxiosResponseSuccess<Data> = Promise<AxiosResponse<Data>>;
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof rootReducer>;
+export type AppStore = ReturnType<typeof setupStore>;
+export type AppDispatch = AppStore['dispatch'];
 
 export type RequestStatus = 'idle' | 'pending' | 'fulfilled' | 'rejected';
 
