@@ -20,4 +20,7 @@ Adding files for development
 - https://dev.to/truemark/run-eslint-on-git-commit-with-husky-and-lint-staged-in-reactjs-4oeb
 
 # Vercel setup CD
-https://www.youtube.com/watch?v=FHVaWZjWec4&t=7s
+- https://www.youtube.com/watch?v=FHVaWZjWec4&t=7s
+
+# Vercel deploy
+- https://vercel.com/guides/how-can-i-use-github-actions-with-vercel
