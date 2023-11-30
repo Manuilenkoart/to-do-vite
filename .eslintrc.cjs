@@ -51,4 +51,5 @@ module.exports = {
     ],
     'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.spec.ts', '**/*.spec.tsx', '**/test/*'] }],
   },
+  ignorePatterns: ['vite.config.ts'],
 };
