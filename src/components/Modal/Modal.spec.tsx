@@ -49,7 +49,7 @@ describe('<Modal />', () => {
       const { user } = renderComponent();
       const modal = screen.getByRole('dialog');
 
-      if (modal?.parentElement) await user.click(modal.parentElement);
+      await user.click(modal.parentElement as HTMLElement);
 
       expect(defaultProps.onClose).toHaveBeenCalledTimes(1);
     });

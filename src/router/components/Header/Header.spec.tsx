@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 
-import { ROUTER_PATH } from '@/router';
+import ROUTER_PATH from '@/router/routerPath';
 import { renderWithRouter } from '@/test';
 
 import Header from './Header';
