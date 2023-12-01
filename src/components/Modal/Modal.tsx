@@ -29,17 +29,16 @@ function Modal({ isShow, onClose, children }: ModalProps) {
     onClose();
   };
 
-  return (
-    isShow &&
-    createPortal(
-      <S.Backdrop ref={backdropRef} onClick={handleBackdropClick}>
-        <S.Section role="dialog">
-          <FocusLock autoFocus={false}>{children}</FocusLock>
-        </S.Section>
-      </S.Backdrop>,
-      document.body
-    )
-  );
+  return isShow
+    ? createPortal(
+        <S.Backdrop ref={backdropRef} onClick={handleBackdropClick}>
+          <S.Section role="dialog">
+            <FocusLock autoFocus={false}>{children}</FocusLock>
+          </S.Section>
+        </S.Backdrop>,
+        document.body
+      )
+    : null;
 }
 
 export default Modal;
