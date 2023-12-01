@@ -1,15 +1,15 @@
 import { EntityId } from '@reduxjs/toolkit';
-import { memo, ReactNode } from 'react';
+import { memo, ReactElement } from 'react';
 
 import { Todo } from '@/api';
 
 import { TodoCard } from '../TodoCard';
-import * as S from './TotoList.style';
+import * as S from './TotoList.styled';
 
 interface TodoListProps {
   todos: Todo[];
   todoCurrentIds: EntityId[];
-  emptyView: ReactNode | null;
+  emptyView: ReactElement;
   onUpdateClick: (todo: Todo) => void;
   onDeleteClick: (id: Todo['id']) => void;
 }
@@ -25,7 +25,7 @@ function TodoList({ onUpdateClick, onDeleteClick, todos, todoCurrentIds, emptyVi
           onDeleteClick={onDeleteClick}
         />
       ))}
-      {emptyView}
+      {todos.length ? null : emptyView}
     </S.Section>
   );
 }

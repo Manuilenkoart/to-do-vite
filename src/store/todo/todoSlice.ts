@@ -7,7 +7,7 @@ import { addTodoFetch, deleteTodoFetch, getTodosFetch, updateTodoFetch } from '.
 
 export const todosAdapter = createEntityAdapter<Todo>();
 
-const initialState = todosAdapter.getInitialState<InitialAdapterState>({
+export const initialState = todosAdapter.getInitialState<InitialAdapterState>({
   status: 'idle',
   currentIds: [],
   error: '',

@@ -1,9 +1,10 @@
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import { memo } from 'react';
 
 import { Todo } from '@/api';
 import { LineLoader } from '@/components';
 
-import * as S from './TodoCard.styles';
+import * as S from './TodoCard.styled';
 
 interface TodoCardProps {
   isLoading: boolean;
@@ -22,8 +23,12 @@ function TodoCard({ isLoading, todo: { id, text, title }, onDeleteClick, onUpdat
       <S.Header>
         <S.Title>{title}</S.Title>
         <S.IconsContainer>
-          <S.EditIcon onClick={() => onUpdateClick({ id, title, text })} />
-          <S.DeleteIcon onClick={() => onDeleteClick(id)} />
+          <S.EditButton onClick={() => onUpdateClick({ id, title, text })}>
+            <EditOutlined />
+          </S.EditButton>
+          <S.DeleteButton onClick={() => onDeleteClick(id)}>
+            <DeleteOutlined />
+          </S.DeleteButton>
         </S.IconsContainer>
       </S.Header>
       <S.Body>{text}</S.Body>

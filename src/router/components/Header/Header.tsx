@@ -1,8 +1,8 @@
 import logo from '@assets/logo.png';
 
-import { ROUTER_PATH } from '@/router';
+import ROUTER_PATH from '@/router/routerPath';
 
-import * as S from './Header.styles';
+import * as S from './Header.styled';
 
 function Header() {
   return (

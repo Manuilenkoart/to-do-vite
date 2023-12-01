@@ -1,9 +1,9 @@
-import 'react-toastify/dist/ReactToastify.css';
-
 import { Suspense } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { Header, LineLoader } from '@/components';
+import { LineLoader } from '@/components';
+
+import { Header } from './components';
 
 function RootLayout() {
   return (

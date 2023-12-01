@@ -1,4 +1,4 @@
-import { ROUTER_PATH } from '@/router';
+import ROUTER_PATH from '@/router/routerPath';
 
 import * as S from '../styles';
 

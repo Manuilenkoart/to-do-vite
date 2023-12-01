@@ -1,6 +1,6 @@
 import { ArrowUpOutlined } from '@ant-design/icons';
 
-import * as S from './EmptyTodoList.style';
+import * as S from './EmptyTodoList.styled';
 
 function EmptyTodoList() {
   return (

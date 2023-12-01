@@ -20,7 +20,7 @@ import {
 } from '@/store';
 
 import { EmptyTodoList, TodoForm, TodoList } from './components';
-import * as S from './Todo.styles';
+import * as S from './Todo.styled';
 
 function TodoPage() {
   const dispatch = useAppDispatch();
@@ -78,10 +78,6 @@ function TodoPage() {
     [dispatch]
   );
 
-  const handleCancelModalClick = useCallback(() => {
-    handleTodoModalClose();
-  }, [handleTodoModalClose]);
-
   const handleAddTodoClick = () => {
     setInitialFormTodo(initialTodo);
     handleTodoModalOpen();
@@ -102,16 +98,15 @@ function TodoPage() {
         <TodoList
           todos={todos}
           todoCurrentIds={todoCurrentIds}
-          emptyView={!todosTotalCount && todoStatus === 'fulfilled' ? <EmptyTodoList /> : null}
+          emptyView={<EmptyTodoList />}
           onUpdateClick={handleUpdateTodoClick}
           onDeleteClick={handleDeleteTodoClick}
         />
       </S.Section>
-      {isTodoModalOpen && (
-        <Modal>
-          <TodoForm initialValues={initialFormTodo} onSubmit={handleSubmitFormTodo} onCancel={handleCancelModalClick} />
-        </Modal>
-      )}
+
+      <Modal isShow={isTodoModalOpen} onClose={handleTodoModalClose}>
+        <TodoForm initialValues={initialFormTodo} onSubmit={handleSubmitFormTodo} onCancel={handleTodoModalClose} />
+      </Modal>
     </>
   );
 }

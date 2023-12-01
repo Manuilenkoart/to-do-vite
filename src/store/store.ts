@@ -1,11 +1,15 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore, PreloadedState } from '@reduxjs/toolkit';
+
+import { RootState } from '@/api';
 
 import todoReducer from './todo/todoSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   todoState: todoReducer,
 });
 
-export const store = configureStore({
-  reducer: rootReducer,
-});
+export const setupStore = (preloadedState?: PreloadedState<RootState>) =>
+  configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
