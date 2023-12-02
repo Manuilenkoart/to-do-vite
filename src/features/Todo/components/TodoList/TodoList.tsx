@@ -15,7 +15,7 @@ interface TodoListProps {
 }
 function TodoList({ onUpdateClick, onDeleteClick, todos, todoCurrentIds, emptyView }: TodoListProps) {
   return (
-    <S.Section>
+    <S.Section data-cy="TodoList">
       {todos.map((todo) => (
         <TodoCard
           key={todo.id}

@@ -24,3 +24,6 @@ Adding files for development
 
 # Vercel deploy
 - https://vercel.com/guides/how-can-i-use-github-actions-with-vercel
+
+# Cypress
+- https://docs.cypress.io/guides/references/best-practices
