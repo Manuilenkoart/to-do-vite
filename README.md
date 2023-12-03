@@ -19,6 +19,9 @@ Adding files for development
 # Husky and Lint-Staged
 - https://dev.to/truemark/run-eslint-on-git-commit-with-husky-and-lint-staged-in-reactjs-4oeb
 
+# Display typescript error to terminal
+- https://vitejs.dev/guide/features.html#transpile-only
+
 # Vercel setup CD
 - https://www.youtube.com/watch?v=FHVaWZjWec4&t=7s
 
