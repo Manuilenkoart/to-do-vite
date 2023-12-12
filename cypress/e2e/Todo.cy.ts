@@ -13,10 +13,10 @@ describe('User flow CRUD todo', () => {
   });
 
   it('can update last todo', () => {
-    cy.get('[data-cy=TodoList]').children().should('have.length.at.least', 1);
+    cy.get('[data-testid=TodoList]').children().should('have.length.at.least', 1);
 
-    const lastTodoCard = cy.get('[data-cy=TodoList]').children().last();
-    lastTodoCard.find('[data-cy=TodoCard-edit-btn]').click();
+    const lastTodoCard = cy.get('[data-testid=TodoList]').children().last();
+    lastTodoCard.find('[data-testid=TodoCard-edit-btn]').click();
 
     const inputTitle = cy.get('[name="title"]');
     const inputText = cy.get('[name="text"]');
@@ -29,14 +29,14 @@ describe('User flow CRUD todo', () => {
 
     cy.get('[type="submit"]').click();
 
-    cy.get('[data-cy=TodoList]').children().last().should('contain.text', 'cy: title upd');
-    cy.get('[data-cy=TodoList]').children().last().should('contain.text', 'cy: description updated');
+    cy.get('[data-testid=TodoList]').children().last().should('contain.text', 'cy: title upd');
+    cy.get('[data-testid=TodoList]').children().last().should('contain.text', 'cy: description updated');
   });
 
   it('can delete last todo', () => {
-    cy.get('[data-cy=TodoList]').children().should('have.length.at.least', 1);
+    cy.get('[data-testid=TodoList]').children().should('have.length.at.least', 1);
 
-    const lastTodoCard = cy.get('[data-cy=TodoList]').children().last();
-    lastTodoCard.find('[data-cy=TodoCard-delete-btn]').click();
+    const lastTodoCard = cy.get('[data-testid=TodoList]').children().last();
+    lastTodoCard.find('[data-testid=TodoCard-delete-btn]').click();
   });
 });

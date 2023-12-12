@@ -23,10 +23,10 @@ function TodoCard({ isLoading, todo: { id, text, title }, onDeleteClick, onUpdat
       <S.Header>
         <S.Title>{title}</S.Title>
         <S.IconsContainer>
-          <S.EditButton onClick={() => onUpdateClick({ id, title, text })} data-cy="TodoCard-edit-btn">
+          <S.EditButton onClick={() => onUpdateClick({ id, title, text })} data-testid="TodoCard-edit-btn">
             <EditOutlined />
           </S.EditButton>
-          <S.DeleteButton onClick={() => onDeleteClick(id)} data-cy="TodoCard-delete-btn">
+          <S.DeleteButton onClick={() => onDeleteClick(id)} data-testid="TodoCard-delete-btn">
             <DeleteOutlined />
           </S.DeleteButton>
         </S.IconsContainer>
