@@ -30,3 +30,6 @@ Adding files for development
 
 # Cypress
 - https://docs.cypress.io/guides/references/best-practices
+
+# Cypress ci start local server
+- https://github.com/cypress-io/github-action?tab=readme-ov-file#start-server
