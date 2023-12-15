@@ -62,9 +62,10 @@ describe('User flow CRUD todo', () => {
   });
 
   it('can delete last todo', () => {
+    const { id, text, title } = todos[todos.length - 1]; // take last todo from fixtures
     cy.intercept('DELETE', '/api/todo', {
       statusCode: 200,
-      body: { id: '2', title: 'fixture title 2', text: 'fixture text 2' },
+      body: { id, title, text },
     }).as('fetchDeleteTodo');
 
     cy.wait('@fetchTodos').its('response.statusCode').should('eq', 200);
@@ -75,5 +76,7 @@ describe('User flow CRUD todo', () => {
     cy.wait('@fetchDeleteTodo').its('response.statusCode').should('eq', 200);
 
     cy.get('@TodoList').should('have.length', 1);
+    cy.get('@LastTodo').should('not.contain', title);
+    cy.get('@LastTodo').should('not.contain', text);
   });
 });
