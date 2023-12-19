@@ -46,7 +46,7 @@ describe('User flow CRUD todo', () => {
       body: { id: updatedTodo.id, title: updatedTodo.title, text: updatedTodo.text },
     }).as('fetchUpdateTodo');
 
-    cy.get('@TodoList').should('have.length.at.least', 2);
+    cy.get('@TodoList').should('have.length', 2);
 
     cy.get('@LastTodo').find('[data-testid=TodoCard-edit-btn]').click();
 
@@ -56,7 +56,7 @@ describe('User flow CRUD todo', () => {
 
     cy.wait('@fetchUpdateTodo').its('response.statusCode').should('eq', 200);
 
-    cy.get('@TodoList').should('have.length.at.least', 2);
+    cy.get('@TodoList').should('have.length', 2);
     cy.get('@LastTodo').should('contain', updatedTodo.title);
     cy.get('@LastTodo').should('contain', updatedTodo.text);
   });

@@ -9,6 +9,7 @@
   },
   "scripts": {
     "dev": "vite --mode dev & tsc --noEmit --watch",
+    "dev:ci": "vite --mode dev",
     "build": "tsc & vite build --mode production",
     "preview": "vite preview",
     "test": "vitest run",
