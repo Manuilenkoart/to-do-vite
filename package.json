@@ -4,12 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "engines": {
-    "node": "^16.20.1",
-    "npm": "^8.19.4"
+    "node": "^18.17.0",
+    "npm": "^9.6.7"
   },
   "scripts": {
-    "dev": "vite --mode dev",
-    "build": "tsc && vite build --mode production",
+    "dev": "vite --mode dev & tsc --noEmit --watch",
+    "dev:ci": "vite --mode dev",
+    "build": "tsc & vite build --mode production",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -17,7 +18,9 @@
     "test:coverage": "vitest run --coverage",
     "lint": "eslint --ext .js,.cjs,.ts,.tsx .",
     "lint:fix": "eslint --ext .js,.cjs,.ts,.tsx . --fix",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --fix",
@@ -49,6 +52,7 @@
     "@vitejs/plugin-react": "^4.0.0",
     "@vitest/coverage-v8": "^0.34.6",
     "@vitest/ui": "^0.34.6",
+    "cypress": "^13.6.0",
     "eslint": "^8.42.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^17.0.0",

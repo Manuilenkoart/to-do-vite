@@ -49,7 +49,11 @@ module.exports = {
         varsIgnorePattern: '^_',
       },
     ],
-    'import/no-extraneous-dependencies': ['error', { devDependencies: ['**/*.spec.ts', '**/*.spec.tsx', '**/test/*'] }],
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: ['**/*.spec.ts', '**/*.spec.tsx', 'vite.config.ts', 'cypress.config.ts'],
+      },
+    ],
   },
-  ignorePatterns: ['vite.config.ts'],
 };

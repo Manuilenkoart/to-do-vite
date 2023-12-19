@@ -8,16 +8,20 @@ export const Container = styled.div`
 `;
 export const WrapperIcons = styled.div`
   span {
+    position: relative;
+
     &:nth-child(1) {
-      position: relative;
-      top: -16px;
+      top: -32px;
       left: -40px;
       transform: rotate(35deg);
     }
 
-    &:nth-child(3) {
-      position: relative;
+    &:nth-child(2) {
       top: -16px;
+    }
+
+    &:nth-child(3) {
+      top: -32px;
       left: 40px;
       transform: rotate(-35deg);
     }
