@@ -1,47 +1,55 @@
+import { useMutation, useQuery } from '@apollo/client';
 import viteLogo from '@assets/vite.svg';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Todo } from '@/api';
+import { CREATE_TODO, DELETE_TODO, GET_TODOS, Todo, UPDATE_TODO } from '@/api';
 import { Loader } from '@/components';
 import { Modal, useModalHandlers } from '@/components/Modal';
-import {
-  addTodoFetch,
-  deleteTodoFetch,
-  getTodosFetch,
-  selectAllTodo,
-  selectTodoCurrentIds,
-  selectTodoError,
-  selectTodoStatus,
-  selectTotalTodo,
-  updateTodoFetch,
-  useAppDispatch,
-  useAppSelector,
-} from '@/store';
 
 import { EmptyTodoList, TodoForm, TodoList } from './components';
 import * as S from './Todo.styled';
 
 function TodoPage() {
-  const dispatch = useAppDispatch();
-  const todosTotalCount = useAppSelector(selectTotalTodo);
-  const todoStatus = useAppSelector(selectTodoStatus);
-  const todoError = useAppSelector(selectTodoError);
-  const todos = useAppSelector(selectAllTodo);
-  const todoCurrentIds = useAppSelector(selectTodoCurrentIds);
+  const {
+    data: { todos = [] } = {},
+    loading: isTodosLoading,
+    error: getTodosError,
+  } = useQuery<{ todos: Todo[] }>(GET_TODOS);
+
+  const [createTodoMutation, { error: createTodoError, loading: isLoadingCreateTodo }] = useMutation(CREATE_TODO, {
+    update(cache, { data: { createTodo: createdTodo } }) {
+      const { todos: todosCached = [] } = cache.readQuery<{ todos: Todo[] }>({ query: GET_TODOS }) ?? {};
+
+      cache.writeQuery({
+        query: GET_TODOS,
+        data: {
+          todos: [...todosCached, createdTodo],
+        },
+      });
+    },
+  });
+  const [updateTodoMutation] = useMutation(UPDATE_TODO, {});
+  const [deleteTodoMutation] = useMutation(DELETE_TODO, {
+    update(cache, { data: { deleteTodo: deletedTodo } }) {
+      cache.modify({
+        fields: {
+          todos(cachedTodo = []) {
+            return cachedTodo.filter(({ __ref }: { __ref: string }) => __ref !== `Todo:${deletedTodo.id}`);
+          },
+        },
+      });
+    },
+  });
 
   const initialTodo = { id: '', title: '', text: '' } as const;
   const [initialFormTodo, setInitialFormTodo] = useState<Todo>(initialTodo);
 
   useEffect(() => {
-    dispatch(getTodosFetch());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (todoError) {
-      toast.error(todoError);
+    if (getTodosError || createTodoError) {
+      toast.error(getTodosError?.message || createTodoError?.message);
     }
-  }, [todoError]);
+  }, [getTodosError, createTodoError]);
 
   const {
     isModalOpen: isTodoModalOpen,
@@ -53,14 +61,18 @@ function TodoPage() {
     (todo: Todo) => {
       const { id, ...todoFields } = todo;
       if (id) {
-        dispatch(updateTodoFetch({ id, ...todoFields }));
+        updateTodoMutation({ variables: { id, ...todoFields } });
       } else {
-        dispatch(addTodoFetch(todoFields));
+        createTodoMutation({
+          variables: {
+            ...todoFields,
+          },
+        });
       }
 
       handleTodoModalClose();
     },
-    [dispatch, handleTodoModalClose]
+    [handleTodoModalClose, updateTodoMutation, createTodoMutation]
   );
 
   const handleUpdateTodoClick = useCallback(
@@ -73,9 +85,9 @@ function TodoPage() {
 
   const handleDeleteTodoClick = useCallback(
     (id: Todo['id']) => {
-      dispatch(deleteTodoFetch(id));
+      deleteTodoMutation({ variables: { id } });
     },
-    [dispatch]
+    [deleteTodoMutation]
   );
 
   const handleAddTodoClick = () => {
@@ -86,18 +98,18 @@ function TodoPage() {
     <>
       <S.Section>
         <S.LogoWrapper>
-          {todoStatus === 'pending' && !todosTotalCount ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
+          {isTodosLoading || isLoadingCreateTodo ? <Loader /> : <S.Logo src={viteLogo} alt="Vite logo" />}
         </S.LogoWrapper>
 
         <S.AddBtnWrapper>
-          <S.AddBtn type="button" disabled={!!todoError} onClick={handleAddTodoClick}>
+          <S.AddBtn type="button" disabled={!!getTodosError} onClick={handleAddTodoClick}>
             Add todo
           </S.AddBtn>
         </S.AddBtnWrapper>
 
         <TodoList
           todos={todos}
-          todoCurrentIds={todoCurrentIds}
+          todoCurrentIds={[]} // TODO: need refactor
           emptyView={<EmptyTodoList />}
           onUpdateClick={handleUpdateTodoClick}
           onDeleteClick={handleDeleteTodoClick}

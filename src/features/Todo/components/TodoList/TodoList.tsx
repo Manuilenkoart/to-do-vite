@@ -1,4 +1,3 @@
-import { EntityId } from '@reduxjs/toolkit';
 import { memo, ReactElement } from 'react';
 
 import { Todo } from '@/api';
@@ -8,7 +7,7 @@ import * as S from './TotoList.styled';
 
 interface TodoListProps {
   todos: Todo[];
-  todoCurrentIds: EntityId[];
+  todoCurrentIds: string[];
   emptyView: ReactElement;
   onUpdateClick: (todo: Todo) => void;
   onDeleteClick: (id: Todo['id']) => void;

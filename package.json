@@ -28,9 +28,11 @@
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
+    "@apollo/client": "^3.8.8",
     "@reduxjs/toolkit": "^1.9.6",
     "axios": "^1.5.1",
     "formik": "^2.4.5",
+    "graphql": "^16.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-focus-lock": "^2.9.6",
