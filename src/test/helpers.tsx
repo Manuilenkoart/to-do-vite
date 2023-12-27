@@ -1,28 +1,35 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import { PreloadedState } from '@reduxjs/toolkit';
-import { render as rtlRender, RenderOptions } from '@testing-library/react';
+import { MockedProvider } from '@apollo/client/testing';
+import { render as rtlRender } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { PropsWithChildren, ReactElement } from 'react';
-import { Provider } from 'react-redux';
+import { ReactElement } from 'react';
 import { createMemoryRouter, RouterProvider } from 'react-router-dom';
 
-import { AppStore, RootState } from '@/api';
-import { setupStore } from '@/store';
-
-interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  preloadedState?: PreloadedState<RootState>;
-  store?: AppStore;
-}
-
-export function renderWithProviders(
-  ui: ReactElement,
-  { preloadedState = {}, store = setupStore(preloadedState), ...renderOptions }: ExtendedRenderOptions = {}
+export function renderWithApollo(
+  children: ReactElement,
+  { mocks, addTypename = false }: { mocks: any; addTypename?: boolean }
 ) {
-  function Wrapper({ children }: PropsWithChildren): JSX.Element {
-    return <Provider store={store}>{children}</Provider>;
-  }
-  return { store, ...rtlRender(ui, { wrapper: Wrapper, ...renderOptions }), user: userEvent.setup() };
+  return {
+    user: userEvent.setup(),
+    ...rtlRender(
+      <MockedProvider mocks={mocks} addTypename={addTypename}>
+        {children}
+      </MockedProvider>
+    ),
+  };
 }
+export const mockApolloQuery = (query: any, resultData: any) => [
+  {
+    request: {
+      query,
+    },
+    result: {
+      data: {
+        ...resultData,
+      },
+    },
+  },
+];
 
 export const renderWithRouter = (Component: ReactElement, { path = '/', initialEntries = ['/'] } = {}) => {
   const routes = [
