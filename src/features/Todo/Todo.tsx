@@ -11,15 +11,14 @@ import { EmptyTodoList, TodoForm, TodoList } from './components';
 import * as S from './Todo.styled';
 
 function TodoPage() {
-  const {
-    data: { todos = [] } = {},
-    loading: isTodosLoading,
-    error: getTodosError,
-  } = useQuery<{ todos: Todo[] }>(GET_TODOS);
+  const { data: { todos = [] } = {}, loading: isTodosLoading, error: getTodosError } = useQuery(GET_TODOS);
 
   const [createTodoMutation, { error: createTodoError, loading: isLoadingCreateTodo }] = useMutation(CREATE_TODO, {
-    update(cache, { data: { createTodo: createdTodo } }) {
-      const { todos: todosCached = [] } = cache.readQuery<{ todos: Todo[] }>({ query: GET_TODOS }) ?? {};
+    update(cache, { data }) {
+      const createdTodo = data?.createTodo;
+      if (!createdTodo) return;
+
+      const { todos: todosCached = [] } = cache.readQuery({ query: GET_TODOS }) ?? {};
 
       cache.writeQuery({
         query: GET_TODOS,
@@ -29,12 +28,17 @@ function TodoPage() {
       });
     },
   });
-  const [updateTodoMutation] = useMutation(UPDATE_TODO, {});
+
+  const [updateTodoMutation] = useMutation(UPDATE_TODO);
+
   const [deleteTodoMutation] = useMutation(DELETE_TODO, {
-    update(cache, { data: { deleteTodo: deletedTodo } }) {
+    update(cache, { data }) {
+      const deletedTodo = data?.deleteTodo;
+      if (!deletedTodo) return;
+
       cache.modify({
         fields: {
-          todos(cachedTodo = []) {
+          todos(cachedTodo) {
             return cachedTodo.filter(({ __ref }: { __ref: string }) => __ref !== `Todo:${deletedTodo.id}`);
           },
         },

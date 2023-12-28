@@ -28,7 +28,7 @@
     "setupTests.ts",
     "cypress",
     "vite.config.ts", 
-    "cypress.config.ts",
+    "cypress.config.ts", 
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
