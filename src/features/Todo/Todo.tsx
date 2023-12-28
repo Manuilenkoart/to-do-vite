@@ -10,7 +10,17 @@ import { Modal, useModalHandlers } from '@/components/Modal';
 import { EmptyTodoList, TodoForm, TodoList } from './components';
 import * as S from './Todo.styled';
 
+const loadingIds: Todo['id'][] = [];
+
 function TodoPage() {
+  const startLoading = (id: Todo['id']) => {
+    loadingIds[loadingIds.length] = id;
+  };
+  const stopLoading = (id: Todo['id']) => {
+    const start = loadingIds.indexOf(id);
+    loadingIds.splice(start, 1);
+  };
+
   const { data: { todos = [] } = {}, loading: isTodosLoading, error: getTodosError } = useQuery(GET_TODOS);
 
   const [createTodoMutation, { error: createTodoError, loading: isLoadingCreateTodo }] = useMutation(CREATE_TODO, {
@@ -29,13 +39,17 @@ function TodoPage() {
     },
   });
 
-  const [updateTodoMutation] = useMutation(UPDATE_TODO);
+  const [updateTodoMutation] = useMutation(UPDATE_TODO, {
+    onCompleted(data) {
+      stopLoading(data.updateTodo.id);
+    },
+  });
 
   const [deleteTodoMutation] = useMutation(DELETE_TODO, {
     update(cache, { data }) {
       const deletedTodo = data?.deleteTodo;
       if (!deletedTodo) return;
-
+      stopLoading(deletedTodo.id);
       cache.modify({
         fields: {
           todos(cachedTodo) {
@@ -65,6 +79,7 @@ function TodoPage() {
     (todo: Todo) => {
       const { id, ...todoFields } = todo;
       if (id) {
+        startLoading(id);
         updateTodoMutation({ variables: { id, ...todoFields } });
       } else {
         createTodoMutation({
@@ -89,6 +104,7 @@ function TodoPage() {
 
   const handleDeleteTodoClick = useCallback(
     (id: Todo['id']) => {
+      startLoading(id);
       deleteTodoMutation({ variables: { id } });
     },
     [deleteTodoMutation]
@@ -113,7 +129,7 @@ function TodoPage() {
 
         <TodoList
           todos={todos}
-          todoCurrentIds={[]} // TODO: need refactor
+          todoCurrentIds={loadingIds}
           emptyView={<EmptyTodoList />}
           onUpdateClick={handleUpdateTodoClick}
           onDeleteClick={handleDeleteTodoClick}
