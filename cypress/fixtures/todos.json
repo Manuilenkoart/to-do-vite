@@ -1,12 +1,18 @@
-[
-  {
-    "id": "1",
-    "title": "fixture title",
-    "text": "fixture text"
-  },
-  {
-    "id": "2",
-    "title": "fixture title 2",
-    "text": "fixture text 2"
+{
+  "data": {
+    "todos": [
+      {
+        "id": "1",
+        "title": "fixture title",
+        "text": "fixture text",
+        "__typename": "Todo"
+      },
+      {
+        "id": "2",
+        "title": "fixture title 2",
+        "text": "fixture text 2",
+        "__typename": "Todo"
+      }
+    ]
   }
-]
+}

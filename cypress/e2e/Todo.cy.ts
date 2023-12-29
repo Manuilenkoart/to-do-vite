@@ -3,7 +3,11 @@ import todos from '../fixtures/todos.json';
 
 describe('User flow CRUD todo', () => {
   beforeEach(() => {
-    cy.intercept('GET', '/api/todo', { fixture: 'todos.json' }).as('fetchTodos');
+    cy.intercept('POST', '/graphql', (req) =>
+      req.reply({
+        fixture: 'todos.json',
+      })
+    ).as('fetchTodos');
 
     cy.visit('/');
 
@@ -11,10 +15,19 @@ describe('User flow CRUD todo', () => {
   });
 
   it('can create new todo', () => {
-    cy.intercept('POST', '/api/todo', {
-      statusCode: 201,
-      body: { id: '22', title: newTodo.title, text: newTodo.text },
-    }).as('fetchNewTodo');
+    const createTodo = {
+      id: '22',
+      title: newTodo.title,
+      text: newTodo.text,
+      __typename: 'Todo',
+    };
+    const responseData = {
+      data: {
+        createTodo,
+      },
+    };
+
+    cy.intercept('POST', '/graphql', (req) => req.reply({ body: responseData, statusCode: 201 })).as('fetchNewTodo');
 
     cy.wait('@fetchTodos').its('response.statusCode').should('eq', 200);
 
@@ -35,38 +48,46 @@ describe('User flow CRUD todo', () => {
   });
 
   it('can update last todo', () => {
-    const updatedTodo = {
-      id: todos[todos.length - 1].id,
+    const updateTodo = {
+      id: todos.data.todos[todos.data.todos.length - 1].id,
       title: 'cy: title upd',
       text: 'cy: description updated',
+      __typename: 'Todo',
+    };
+    const responseData = {
+      data: {
+        updateTodo,
+      },
     };
 
-    cy.intercept('PUT', '/api/todo', {
-      statusCode: 200,
-      body: { id: updatedTodo.id, title: updatedTodo.title, text: updatedTodo.text },
-    }).as('fetchUpdateTodo');
+    cy.intercept('POST', '/graphql', (req) => req.reply({ body: responseData, statusCode: 200 })).as('fetchUpdateTodo');
+
+    cy.wait('@fetchTodos').its('response.statusCode').should('eq', 200);
 
     cy.get('@TodoList').should('have.length', 2);
 
     cy.get('@LastTodo').find('[data-testid=TodoCard-edit-btn]').click();
 
-    cy.get('[name="title"]').clear().type(updatedTodo.title);
-    cy.get('[name="text"]').clear().type(updatedTodo.text);
+    cy.get('[name="title"]').clear().type(updateTodo.title);
+    cy.get('[name="text"]').clear().type(updateTodo.text);
     cy.get('[type="submit"]').click();
 
     cy.wait('@fetchUpdateTodo').its('response.statusCode').should('eq', 200);
 
     cy.get('@TodoList').should('have.length', 2);
-    cy.get('@LastTodo').should('contain', updatedTodo.title);
-    cy.get('@LastTodo').should('contain', updatedTodo.text);
+    cy.get('@LastTodo').should('contain', updateTodo.title);
+    cy.get('@LastTodo').should('contain', updateTodo.text);
   });
 
   it('can delete last todo', () => {
-    const { id, text, title } = todos[todos.length - 1]; // take last todo from fixtures
-    cy.intercept('DELETE', '/api/todo', {
-      statusCode: 200,
-      body: { id, title, text },
-    }).as('fetchDeleteTodo');
+    const deleteTodo = todos.data.todos[todos.data.todos.length - 1]; // take last todo from fixtures
+    const responseData = {
+      data: {
+        deleteTodo,
+      },
+    };
+
+    cy.intercept('POST', '/graphql', (req) => req.reply({ body: responseData, statusCode: 200 })).as('fetchDeleteTodo');
 
     cy.wait('@fetchTodos').its('response.statusCode').should('eq', 200);
 
@@ -76,7 +97,7 @@ describe('User flow CRUD todo', () => {
     cy.wait('@fetchDeleteTodo').its('response.statusCode').should('eq', 200);
 
     cy.get('@TodoList').should('have.length', 1);
-    cy.get('@LastTodo').should('not.contain', title);
-    cy.get('@LastTodo').should('not.contain', text);
+    cy.get('@LastTodo').should('not.contain', deleteTodo.title);
+    cy.get('@LastTodo').should('not.contain', deleteTodo.text);
   });
 });
