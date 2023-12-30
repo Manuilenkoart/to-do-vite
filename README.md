@@ -12,9 +12,9 @@
 - cd: vercel
 
 # Starting a project:
-Adding files for development
-- local .env.dev
-- production .env.production
+Adding files for development with variable: VITE_API_URL
+- local: .env.dev
+- production: .env.production
 
 # References
 - https://markus.oberlehner.net/blog/using-testing-library-jest-dom-with-vitest/
