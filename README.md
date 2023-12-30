@@ -1,6 +1,7 @@
 # Demo
 - [App](https://to-do-vite.vercel.app/)
-- [Api](https://github.com/Manuilenkoart/to-do-vite-api)
+- [Api REST](https://github.com/Manuilenkoart/to-do-vite-api)
+- [Api Graphql](https://github.com/Manuilenkoart/to-do-api-graphql)
 
 # Tech stack (branch)
 - main: react-router-dom > v6.4, redux (EntityAdapter), thunk, axios, formik + yup, styled-components, unit test: vitest, e2e: cypress (REST mock), typescript (eslint + prettier), vite
