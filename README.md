@@ -1,11 +1,21 @@
 # Demo
 - [App](https://to-do-vite.vercel.app/)
-- [Api](https://github.com/Manuilenkoart/to-do-vite-api)
+- [Api REST](https://github.com/Manuilenkoart/to-do-vite-api)
+- [Api Graphql](https://github.com/Manuilenkoart/to-do-api-graphql)
+
+# Tech stack (branch)
+- main: react-router-dom > v6.4, redux (EntityAdapter), thunk, axios, formik + yup, styled-components, unit test: vitest, e2e: cypress (REST mock), typescript (eslint + prettier), vite
+
+- apollo: react-router-dom > v6.4, apollo graphql, formik + yup, styled-components, unit test: vitest, e2e: cypress (graphql mock), typescript (eslint + prettier), vite
+
+# Github actions
+- ci: lint, test, e2e, build
+- cd: vercel
 
 # Starting a project:
-Adding files for development
-- local .env.dev
-- production .env.production
+Adding files for development with variable: VITE_API_URL
+- local: .env.dev
+- production: .env.production
 
 # References
 - https://markus.oberlehner.net/blog/using-testing-library-jest-dom-with-vitest/
