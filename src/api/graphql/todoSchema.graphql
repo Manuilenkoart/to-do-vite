@@ -1,0 +1,29 @@
+fragment TodoFragment on Todo {
+  id
+  title
+  text
+}
+
+query todosQuery {
+  todos {
+    ...TodoFragment
+  }
+}
+
+mutation createTodo($title: String!, $text: String!) {
+  createTodo(title: $title, text: $text) {
+    ...TodoFragment
+  }
+}
+
+mutation updateTodo($id: ID!, $text: String, $title: String) {
+  updateTodo(id: $id, text: $text, title: $title) {
+    ...TodoFragment
+  }
+}
+
+mutation deleteTodo($id: ID!) {
+  deleteTodo(id: $id) {
+    ...TodoFragment
+  }
+}

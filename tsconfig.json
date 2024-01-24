@@ -29,6 +29,7 @@
     "cypress",
     "vite.config.ts", 
     "cypress.config.ts", 
+    "codegen.ts",
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

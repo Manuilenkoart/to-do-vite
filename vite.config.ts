@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 /// <reference types="vite/client" />
 
+import graphql from '@rollup/plugin-graphql';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import { defineConfig } from 'vite';
@@ -12,7 +13,7 @@ export default defineConfig({
       '@assets': path.resolve(__dirname, './src/assets'),
     },
   },
-  plugins: [react()],
+  plugins: [react(), graphql()],
   test: {
     globals: true,
     environment: 'jsdom',

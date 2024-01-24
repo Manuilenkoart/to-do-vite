@@ -52,7 +52,7 @@ module.exports = {
     'import/no-extraneous-dependencies': [
       'error',
       {
-        devDependencies: ['**/*.spec.ts', '**/*.spec.tsx', 'vite.config.ts', 'cypress.config.ts'],
+        devDependencies: ['**/*.spec.ts', '**/*.spec.tsx', 'vite.config.ts', 'cypress.config.ts', 'codegen.ts'],
       },
     ],
   },
