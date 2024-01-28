@@ -3,9 +3,8 @@ import viteLogo from '@assets/vite.svg';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-// import { CREATE_TODO, DELETE_TODO, GET_TODOS, Todo, UPDATE_TODO } from '@/api';
 import { createTodo, deleteTodo, Todo, todosQuery, updateTodo } from '@/api';
-import { CreateTodoMutation, DeleteTodoMutation, Query, UpdateTodoMutation } from '@/api/graphql/types/graphql';
+import { Mutation, Query } from '@/api/graphql/types/graphql';
 import { Loader } from '@/components';
 import { Modal, useModalHandlers } from '@/components/Modal';
 
@@ -15,17 +14,15 @@ import * as S from './Todo.styled';
 function TodoPage() {
   const [loadingIds, setLoadingIds] = useState<Todo['id'][]>([]);
 
-  // const { data: { todos = [] } = {}, loading: isTodosLoading, error: getTodosError } = useQuery<Query>(GET_TODOS);
   const { data: { todos = [] } = {}, loading: isTodosLoading, error: getTodosError } = useQuery<Query>(todosQuery);
 
-  // const [createTodoMutation, { error: createTodoError, loading: isLoadingCreateTodo }] = useMutation(CREATE_TODO, {
-  const [createTodoMutation, { error: createTodoError, loading: isLoadingCreateTodo }] =
-    useMutation<CreateTodoMutation>(createTodo, {
+  const [createTodoMutation, { error: createTodoError, loading: isLoadingCreateTodo }] = useMutation<Mutation>(
+    createTodo,
+    {
       update(cache, { data }) {
         const createdTodo = data?.createTodo;
         if (!createdTodo) return;
 
-        // const { todos: todosCached = [] } = cache.readQuery({ query: GET_TODOS }) ?? {};
         const { todos: todosCached = [] } = cache.readQuery<Query>({ query: todosQuery }) ?? {};
 
         cache.writeQuery({
@@ -35,17 +32,16 @@ function TodoPage() {
           },
         });
       },
-    });
+    }
+  );
 
-  // const [updateTodoMutation] = useMutation(UPDATE_TODO, {
-  const [updateTodoMutation] = useMutation<UpdateTodoMutation>(updateTodo, {
+  const [updateTodoMutation] = useMutation<Mutation>(updateTodo, {
     onCompleted(data) {
       setLoadingIds((prev) => [...prev.filter((id) => id !== data.updateTodo.id)]);
     },
   });
 
-  // const [deleteTodoMutation] = useMutation(DELETE_TODO, {
-  const [deleteTodoMutation] = useMutation<DeleteTodoMutation>(deleteTodo, {
+  const [deleteTodoMutation] = useMutation<Mutation>(deleteTodo, {
     update(cache, { data }) {
       const deletedTodo = data?.deleteTodo;
       if (!deletedTodo) return;

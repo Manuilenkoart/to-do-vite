@@ -50,11 +50,15 @@ export type Todo = {
   title: Scalars['String']['output'];
 };
 
-export type TodosQueryVariables = Exact<{ [key: string]: never }>;
+export type TodoFragmentFragment = { __typename?: 'Todo'; id: string; title: string; text: string } & {
+  ' $fragmentName'?: 'TodoFragmentFragment';
+};
 
-export type TodosQuery = {
+export type TodosQueryQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TodosQueryQuery = {
   __typename?: 'Query';
-  todos: Array<{ __typename?: 'Todo'; id: string; title: string; text: string }>;
+  todos: Array<{ __typename?: 'Todo' } & { ' $fragmentRefs'?: { TodoFragmentFragment: TodoFragmentFragment } }>;
 };
 
 export type CreateTodoMutationVariables = Exact<{
@@ -64,7 +68,7 @@ export type CreateTodoMutationVariables = Exact<{
 
 export type CreateTodoMutation = {
   __typename?: 'Mutation';
-  createTodo: { __typename?: 'Todo'; id: string; title: string; text: string };
+  createTodo: { __typename?: 'Todo' } & { ' $fragmentRefs'?: { TodoFragmentFragment: TodoFragmentFragment } };
 };
 
 export type UpdateTodoMutationVariables = Exact<{
@@ -75,7 +79,7 @@ export type UpdateTodoMutationVariables = Exact<{
 
 export type UpdateTodoMutation = {
   __typename?: 'Mutation';
-  updateTodo: { __typename?: 'Todo'; id: string; title: string; text: string };
+  updateTodo: { __typename?: 'Todo' } & { ' $fragmentRefs'?: { TodoFragmentFragment: TodoFragmentFragment } };
 };
 
 export type DeleteTodoMutationVariables = Exact<{
@@ -84,16 +88,34 @@ export type DeleteTodoMutationVariables = Exact<{
 
 export type DeleteTodoMutation = {
   __typename?: 'Mutation';
-  deleteTodo: { __typename?: 'Todo'; id: string; title: string; text: string };
+  deleteTodo: { __typename?: 'Todo' } & { ' $fragmentRefs'?: { TodoFragmentFragment: TodoFragmentFragment } };
 };
 
-export const TodosDocument = {
+export const TodoFragmentFragmentDoc = {
+  kind: 'Document',
+  definitions: [
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TodoFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Todo' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<TodoFragmentFragment, unknown>;
+export const TodosQueryDocument = {
   kind: 'Document',
   definitions: [
     {
       kind: 'OperationDefinition',
       operation: 'query',
-      name: { kind: 'Name', value: 'todos' },
+      name: { kind: 'Name', value: 'todosQuery' },
       selectionSet: {
         kind: 'SelectionSet',
         selections: [
@@ -102,18 +124,27 @@ export const TodosDocument = {
             name: { kind: 'Name', value: 'todos' },
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
-              ],
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'TodoFragment' } }],
             },
           },
         ],
       },
     },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TodoFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Todo' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'text' } },
+        ],
+      },
+    },
   ],
-} as unknown as DocumentNode<TodosQuery, TodosQueryVariables>;
+} as unknown as DocumentNode<TodosQueryQuery, TodosQueryQueryVariables>;
 export const CreateTodoDocument = {
   kind: 'Document',
   definitions: [
@@ -153,13 +184,22 @@ export const CreateTodoDocument = {
             ],
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
-              ],
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'TodoFragment' } }],
             },
           },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TodoFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Todo' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'text' } },
         ],
       },
     },
@@ -214,13 +254,22 @@ export const UpdateTodoDocument = {
             ],
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
-              ],
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'TodoFragment' } }],
             },
           },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TodoFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Todo' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'text' } },
         ],
       },
     },
@@ -255,13 +304,22 @@ export const DeleteTodoDocument = {
             ],
             selectionSet: {
               kind: 'SelectionSet',
-              selections: [
-                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'title' } },
-                { kind: 'Field', name: { kind: 'Name', value: 'text' } },
-              ],
+              selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'TodoFragment' } }],
             },
           },
+        ],
+      },
+    },
+    {
+      kind: 'FragmentDefinition',
+      name: { kind: 'Name', value: 'TodoFragment' },
+      typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Todo' } },
+      selectionSet: {
+        kind: 'SelectionSet',
+        selections: [
+          { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'title' } },
+          { kind: 'Field', name: { kind: 'Name', value: 'text' } },
         ],
       },
     },
