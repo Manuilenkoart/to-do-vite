@@ -2,28 +2,23 @@ import { memo, ReactElement } from 'react';
 
 import { Todo } from '@/api';
 
+import { withTodoCard } from '../../hoc';
 import { TodoCard } from '../TodoCard';
 import * as S from './TotoList.styled';
 
 interface TodoListProps {
   todos: Todo[];
-  todoCurrentIds: string[];
   emptyView: ReactElement;
-  onUpdateClick: (todo: Todo) => void;
-  onDeleteClick: (id: Todo['id']) => void;
 }
-function TodoList({ onUpdateClick, onDeleteClick, todos, todoCurrentIds, emptyView }: TodoListProps) {
+
+const TodoCardHOC = withTodoCard(TodoCard);
+
+function TodoList({ todos, emptyView }: TodoListProps) {
   return (
     <>
       <S.Section data-testid="TodoList">
         {todos.map((todo) => (
-          <TodoCard
-            key={todo.id}
-            isLoading={todoCurrentIds.includes(todo.id)}
-            todo={todo}
-            onUpdateClick={onUpdateClick}
-            onDeleteClick={onDeleteClick}
-          />
+          <TodoCardHOC key={todo.id} todo={todo} />
         ))}
       </S.Section>
       {todos.length ? null : emptyView}

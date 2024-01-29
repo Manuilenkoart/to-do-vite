@@ -1,6 +1,6 @@
 import { render, RenderOptions, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { it, vi } from 'vitest';
+import { it } from 'vitest';
 
 import { todo } from '@/test/__mock__';
 
@@ -12,10 +12,7 @@ type OverrideProps = Partial<DefaultProps>;
 
 const defaultProps: DefaultProps = {
   todos: [],
-  todoCurrentIds: [],
   emptyView: <EmptyTodoList />,
-  onUpdateClick: vi.fn(),
-  onDeleteClick: vi.fn(),
 };
 
 const renderComponent = (overrideProps?: OverrideProps, options?: RenderOptions) => {
@@ -35,7 +32,6 @@ describe('<TodoList />', () => {
 
       expect(emptyView).toBeInTheDocument();
       expect(defaultProps.todos).toHaveLength(0);
-      expect(defaultProps.todoCurrentIds).toHaveLength(0);
     });
 
     it('has todo', () => {
@@ -61,18 +57,6 @@ describe('<TodoList />', () => {
       overrideProps.todos.forEach(({ id }) => {
         const isLoading = overrideProps.todoCurrentIds.includes(id);
         expect(isLoading).toBeTruthy();
-      });
-    });
-
-    it('has isLoading condition false', () => {
-      const overrideProps = {
-        todos: [todo],
-      };
-      renderComponent(overrideProps);
-
-      overrideProps.todos.forEach(({ id }) => {
-        const isLoading = defaultProps.todoCurrentIds.includes(id);
-        expect(isLoading).toBeFalsy();
       });
     });
   });
