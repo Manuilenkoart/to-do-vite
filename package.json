@@ -8,7 +8,7 @@
     "npm": "^9.6.7"
   },
   "scripts": {
-    "predev": "npm run codegen:compile",
+    "predev": "npm run codegen",
     "dev": "vite --mode dev & tsc --noEmit --watch",
     "dev:ci": "vite --mode dev",
     "build": "tsc & vite build --mode production",
@@ -22,7 +22,8 @@
     "prepare": "husky install",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "codegen:compile": "graphql-codegen"
+    "codegen:compile": "graphql-codegen",
+    "codegen": "graphql-codegen --config codegen.ts"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --fix",

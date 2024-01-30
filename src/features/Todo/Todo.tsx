@@ -1,10 +1,10 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import viteLogo from '@assets/vite.svg';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { createTodo, deleteTodo, Todo, todosQuery, updateTodo } from '@/api';
-import { Mutation, Query } from '@/api/graphql/types/graphql';
+import { Todo, todosQuery, updateTodo } from '@/api';
+import { useCreateTodoMutation, useDeleteTodoMutation, useTodosQueryQuery } from '@/api/graphql/generatedTypes';
 import { Loader } from '@/components';
 import { Modal, useModalHandlers } from '@/components/Modal';
 
@@ -14,34 +14,31 @@ import * as S from './Todo.styled';
 function TodoPage() {
   const [loadingIds, setLoadingIds] = useState<Todo['id'][]>([]);
 
-  const { data: { todos = [] } = {}, loading: isTodosLoading, error: getTodosError } = useQuery<Query>(todosQuery);
+  const { data: { todos = [] } = {}, loading: isTodosLoading, error: getTodosError } = useTodosQueryQuery();
 
-  const [createTodoMutation, { error: createTodoError, loading: isLoadingCreateTodo }] = useMutation<Mutation>(
-    createTodo,
-    {
-      update(cache, { data }) {
-        const createdTodo = data?.createTodo;
-        if (!createdTodo) return;
+  const [createTodoMutation, { error: createTodoError, loading: isLoadingCreateTodo }] = useCreateTodoMutation({
+    update(cache, { data }) {
+      const createdTodo = data?.createTodo;
+      if (!createdTodo) return;
 
-        const { todos: todosCached = [] } = cache.readQuery<Query>({ query: todosQuery }) ?? {};
+      const { todos: todosCached = [] } = cache.readQuery({ query: todosQuery });
 
-        cache.writeQuery({
-          query: todosQuery,
-          data: {
-            todos: [...todosCached, createdTodo],
-          },
-        });
-      },
-    }
-  );
+      cache.writeQuery({
+        query: todosQuery,
+        data: {
+          todos: [...todosCached, createdTodo],
+        },
+      });
+    },
+  });
 
-  const [updateTodoMutation] = useMutation<Mutation>(updateTodo, {
+  const [updateTodoMutation] = useMutation(updateTodo, {
     onCompleted(data) {
       setLoadingIds((prev) => [...prev.filter((id) => id !== data.updateTodo.id)]);
     },
   });
 
-  const [deleteTodoMutation] = useMutation<Mutation>(deleteTodo, {
+  const [deleteTodoMutation] = useDeleteTodoMutation({
     update(cache, { data }) {
       const deletedTodo = data?.deleteTodo;
       if (!deletedTodo) return;
