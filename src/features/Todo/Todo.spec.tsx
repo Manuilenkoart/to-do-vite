@@ -1,9 +1,9 @@
 import { screen } from '@testing-library/react';
 import { describe, it } from 'vitest';
 
-import { todosQuery } from '@/api';
 import { mockApolloQuery, renderWithApollo } from '@/test';
 
+import { todosQuery } from './graphql';
 import TodoPage from './Todo';
 
 describe('Toto', () => {

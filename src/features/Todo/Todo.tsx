@@ -3,12 +3,18 @@ import viteLogo from '@assets/vite.svg';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
-import { Todo, todosQuery, updateTodo } from '@/api';
-import { useCreateTodoMutation, useDeleteTodoMutation, useTodosQueryQuery } from '@/api/graphql/generatedTypes';
+import { Todo } from '@/api';
 import { Loader } from '@/components';
 import { Modal, useModalHandlers } from '@/components/Modal';
 
 import { EmptyTodoList, TodoForm, TodoList } from './components';
+import { todosQuery, updateTodo } from './graphql';
+import {
+  TodosQueryQuery,
+  useCreateTodoMutation,
+  useDeleteTodoMutation,
+  useTodosQueryQuery,
+} from './hooks/todoSchema.generatedTypes';
 import * as S from './Todo.styled';
 
 function TodoPage() {
@@ -21,7 +27,7 @@ function TodoPage() {
       const createdTodo = data?.createTodo;
       if (!createdTodo) return;
 
-      const { todos: todosCached = [] } = cache.readQuery({ query: todosQuery });
+      const { todos: todosCached = [] } = cache.readQuery<TodosQueryQuery>({ query: todosQuery }) ?? {};
 
       cache.writeQuery({
         query: todosQuery,
