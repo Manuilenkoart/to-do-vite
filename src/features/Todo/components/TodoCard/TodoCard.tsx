@@ -10,7 +10,7 @@ interface TodoCardProps {
   isLoading: boolean;
   todo: Todo;
   onUpdateClick: (todo: Todo) => void;
-  onDeleteClick: (id: Todo['id']) => void;
+  onDeleteClick: (id: Todo) => void;
 }
 function TodoCard({ isLoading, todo: { id, text, title }, onDeleteClick, onUpdateClick }: TodoCardProps) {
   return (
@@ -26,7 +26,7 @@ function TodoCard({ isLoading, todo: { id, text, title }, onDeleteClick, onUpdat
           <S.EditButton onClick={() => onUpdateClick({ id, title, text })} data-testid="TodoCard-edit-btn">
             <EditOutlined />
           </S.EditButton>
-          <S.DeleteButton onClick={() => onDeleteClick(id)} data-testid="TodoCard-delete-btn">
+          <S.DeleteButton onClick={() => onDeleteClick({ id, title, text })} data-testid="TodoCard-delete-btn">
             <DeleteOutlined />
           </S.DeleteButton>
         </S.IconsContainer>

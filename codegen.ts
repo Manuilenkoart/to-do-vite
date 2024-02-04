@@ -19,9 +19,6 @@ const config: CodegenConfig = {
         folder: '../hooks',
       },
       plugins: ['typescript-operations', 'typescript-react-apollo'],
-      config: {
-        skipTypename: true,
-      },
     },
   },
   hooks: { afterAllFileWrite: ['eslint --fix'] },

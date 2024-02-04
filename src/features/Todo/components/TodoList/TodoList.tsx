@@ -10,7 +10,7 @@ interface TodoListProps {
   todoCurrentIds: string[];
   emptyView: ReactElement;
   onUpdateClick: (todo: Todo) => void;
-  onDeleteClick: (id: Todo['id']) => void;
+  onDeleteClick: (id: Todo) => void;
 }
 function TodoList({ onUpdateClick, onDeleteClick, todos, todoCurrentIds, emptyView }: TodoListProps) {
   return (

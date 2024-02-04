@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/client';
 import viteLogo from '@assets/vite.svg';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { v4 as uuidv4 } from 'uuid';
 
 import { Todo } from '@/api';
 import { Loader } from '@/components';
@@ -38,13 +39,13 @@ function TodoPage() {
     },
   });
 
-  const [updateTodoMutation] = useMutation(updateTodo, {
+  const [updateTodoMutation, { error: updateTodoError }] = useMutation(updateTodo, {
     onCompleted(data) {
       setLoadingIds((prev) => [...prev.filter((id) => id !== data.updateTodo.id)]);
     },
   });
 
-  const [deleteTodoMutation] = useDeleteTodoMutation({
+  const [deleteTodoMutation, { error: deleteTodoError }] = useDeleteTodoMutation({
     update(cache, { data }) {
       const deletedTodo = data?.deleteTodo;
       if (!deletedTodo) return;
@@ -63,10 +64,14 @@ function TodoPage() {
   const [initialFormTodo, setInitialFormTodo] = useState<Todo>(initialTodo);
 
   useEffect(() => {
-    if (getTodosError || createTodoError) {
-      toast.error(getTodosError?.message || createTodoError?.message);
+    const hasError = getTodosError || createTodoError || deleteTodoError || updateTodoError;
+    const errorMessage =
+      getTodosError?.message || createTodoError?.message || deleteTodoError?.message || updateTodoError?.message;
+
+    if (hasError) {
+      toast.error(errorMessage);
     }
-  }, [getTodosError, createTodoError]);
+  }, [getTodosError, createTodoError, deleteTodoError, updateTodoError]);
 
   const {
     isModalOpen: isTodoModalOpen,
@@ -79,12 +84,16 @@ function TodoPage() {
       const { id, ...todoFields } = todo;
       if (id) {
         setLoadingIds((prev) => [...prev, id]);
-        updateTodoMutation({ variables: { id, ...todoFields } });
+        updateTodoMutation({
+          variables: { id, ...todoFields },
+          optimisticResponse: { updateTodo: { __typename: 'Todo', id, ...todoFields } },
+        });
       } else {
         createTodoMutation({
           variables: {
             ...todoFields,
           },
+          optimisticResponse: { createTodo: { __typename: 'Todo', id: uuidv4(), ...todoFields } },
         });
       }
 
@@ -102,9 +111,12 @@ function TodoPage() {
   );
 
   const handleDeleteTodoClick = useCallback(
-    (id: Todo['id']) => {
-      setLoadingIds((prev) => [...prev, id]);
-      deleteTodoMutation({ variables: { id } });
+    (todo: Todo) => {
+      setLoadingIds((prev) => [...prev, todo.id]);
+      deleteTodoMutation({
+        variables: { id: todo.id },
+        optimisticResponse: { deleteTodo: { __typename: 'Todo', ...todo } },
+      });
     },
     [deleteTodoMutation]
   );

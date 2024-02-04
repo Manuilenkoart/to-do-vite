@@ -4,18 +4,24 @@ import * as Apollo from '@apollo/client';
 import * as Types from '../../../api/graphql/generatedTypes';
 
 const defaultOptions = {} as const;
-export type TodoFragmentFragment = { id: string; title: string; text: string };
+export type TodoFragmentFragment = { __typename?: 'Todo'; id: string; title: string; text: string };
 
 export type TodosQueryQueryVariables = Types.Exact<{ [key: string]: never }>;
 
-export type TodosQueryQuery = { todos: Array<{ id: string; title: string; text: string }> };
+export type TodosQueryQuery = {
+  __typename?: 'Query';
+  todos: Array<{ __typename?: 'Todo'; id: string; title: string; text: string }>;
+};
 
 export type CreateTodoMutationVariables = Types.Exact<{
   title: Types.Scalars['String']['input'];
   text: Types.Scalars['String']['input'];
 }>;
 
-export type CreateTodoMutation = { createTodo: { id: string; title: string; text: string } };
+export type CreateTodoMutation = {
+  __typename?: 'Mutation';
+  createTodo: { __typename?: 'Todo'; id: string; title: string; text: string };
+};
 
 export type UpdateTodoMutationVariables = Types.Exact<{
   id: Types.Scalars['ID']['input'];
@@ -23,13 +29,19 @@ export type UpdateTodoMutationVariables = Types.Exact<{
   title?: Types.InputMaybe<Types.Scalars['String']['input']>;
 }>;
 
-export type UpdateTodoMutation = { updateTodo: { id: string; title: string; text: string } };
+export type UpdateTodoMutation = {
+  __typename?: 'Mutation';
+  updateTodo: { __typename?: 'Todo'; id: string; title: string; text: string };
+};
 
 export type DeleteTodoMutationVariables = Types.Exact<{
   id: Types.Scalars['ID']['input'];
 }>;
 
-export type DeleteTodoMutation = { deleteTodo: { id: string; title: string; text: string } };
+export type DeleteTodoMutation = {
+  __typename?: 'Mutation';
+  deleteTodo: { __typename?: 'Todo'; id: string; title: string; text: string };
+};
 
 export const TodoFragmentFragmentDoc = gql`
   fragment TodoFragment on Todo {
