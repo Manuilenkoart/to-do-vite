@@ -1,12 +1,11 @@
-import { useMutation } from '@apollo/client';
 import { ComponentType, useCallback } from 'react';
 
-import { deleteTodo, Todo, updateTodo } from '@/api';
-import { Mutation } from '@/api/graphql/types/graphql';
+import { Todo } from '@/api';
 import { Modal } from '@/components';
 import { useModalHandlers } from '@/components/Modal';
 
 import { TodoForm } from '../components/TodoForm';
+import { useDeleteTodoMutation, useUpdateTodoMutation } from '../hooks/todoSchema.generatedTypes';
 
 interface withTodoCardProps {
   todo: Todo;
@@ -16,9 +15,9 @@ function withTodoCard<T>(WrappedComponent: ComponentType<T>) {
   return function WithTodoCard(props: withTodoCardProps) {
     const { todo } = props;
 
-    const [updateTodoMutation, { loading: isUpdateTodoMutation }] = useMutation<Mutation>(updateTodo);
+    const [updateTodoMutation, { loading: isUpdateTodoMutation }] = useUpdateTodoMutation();
 
-    const [deleteTodoMutation, { loading: isDeleteTodoMutation }] = useMutation<Mutation>(deleteTodo, {
+    const [deleteTodoMutation, { loading: isDeleteTodoMutation }] = useDeleteTodoMutation({
       update(cache, { data }) {
         const deletedTodo = data?.deleteTodo;
         if (!deletedTodo) return;
