@@ -1,6 +1,6 @@
 import ROUTER_PATH from '@/router/routerPath';
 
-import { AnimatedFace } from '../animatedFace';
+import { AnimatedFace } from '../AnimatedFace';
 import * as S from '../styles';
 
 function NoMatch() {

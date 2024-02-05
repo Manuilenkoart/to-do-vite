@@ -1,4 +1,4 @@
-import * as S from './animatedFace.styled';
+import * as S from './AnimatedFace.styled';
 
 function AnimatedFace() {
   return (
