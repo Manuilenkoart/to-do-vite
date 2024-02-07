@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 
-import * as Types from '../../../api/graphql/generatedTypes';
+import * as Types from '../../../api/graphql/generated';
 
 const defaultOptions = {} as const;
 export type TodoFragmentFragment = { __typename?: 'Todo'; id: string; title: string; text: string };

@@ -50,7 +50,7 @@ describe('<TodoCard/>', () => {
 
     await user.click(deleteIcon);
 
-    expect(defaultProps.onDeleteClick).toHaveBeenCalledWith(defaultProps.todo.id);
+    expect(defaultProps.onDeleteClick).toHaveBeenCalledWith(defaultProps.todo);
   });
 
   describe('Line loading indicator', () => {

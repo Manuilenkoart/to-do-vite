@@ -15,7 +15,7 @@ import {
   useCreateTodoMutation,
   useDeleteTodoMutation,
   useTodosQueryQuery,
-} from './hooks/todoSchema.generatedTypes';
+} from './hooks/todo.generated';
 import * as S from './Todo.styled';
 
 function TodoPage() {
@@ -41,7 +41,7 @@ function TodoPage() {
 
   const [updateTodoMutation, { error: updateTodoError }] = useMutation(updateTodo, {
     onCompleted(data) {
-      setLoadingIds((prev) => [...prev.filter((id) => id !== data.updateTodo.id)]);
+      setLoadingIds((prev) => prev.filter((id) => id !== data.updateTodo.id));
     },
   });
 
@@ -49,7 +49,7 @@ function TodoPage() {
     update(cache, { data }) {
       const deletedTodo = data?.deleteTodo;
       if (!deletedTodo) return;
-      setLoadingIds((prev) => [...prev.filter((id) => id !== deletedTodo.id)]);
+      setLoadingIds((prev) => prev.filter((id) => id !== deletedTodo.id));
       cache.modify({
         fields: {
           todos(cachedTodo) {

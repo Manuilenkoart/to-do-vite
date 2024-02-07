@@ -1,1 +1,1 @@
-export { createTodo, deleteTodo, todosQuery, updateTodo } from './todoSchema.graphql';
+export { createTodo, deleteTodo, todosQuery, updateTodo } from './todo.graphql';

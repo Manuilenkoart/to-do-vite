@@ -22,8 +22,7 @@
     "prepare": "husky install",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "codegen:compile": "graphql-codegen",
-    "codegen": "graphql-codegen --config codegen.ts"
+    "codegen": "graphql-codegen"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint --fix",

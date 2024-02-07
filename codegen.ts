@@ -5,7 +5,7 @@ const config: CodegenConfig = {
   schema: 'http://localhost:3002/graphql',
   documents: 'src/**/*.graphql',
   generates: {
-    'src/api/graphql/generatedTypes.ts': {
+    'src/api/graphql/generated.ts': {
       plugins: ['typescript'],
       config: {
         skipTypename: true,
@@ -14,8 +14,8 @@ const config: CodegenConfig = {
     'src/': {
       preset: 'near-operation-file',
       presetConfig: {
-        extension: '.generatedTypes.ts',
-        baseTypesPath: '/api/graphql/generatedTypes.ts',
+        extension: '.generated.ts',
+        baseTypesPath: '/api/graphql/generated.ts',
         folder: '../hooks',
       },
       plugins: ['typescript-operations', 'typescript-react-apollo'],
