@@ -1,4 +1,4 @@
-import { FrownOutlined, MehOutlined } from '@ant-design/icons';
+import { FrownOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -14,9 +14,6 @@ export const Container = styled.div`
 `;
 
 export const FrownOutlinedWrapper = styled(FrownOutlined)`
-  font-size: 100px;
-`;
-export const MehOutlinedWrapper = styled(MehOutlined)`
   font-size: 100px;
 `;
 

@@ -1,5 +1,6 @@
 import ROUTER_PATH from '@/router/routerPath';
 
+import { AnimatedFace } from '../AnimatedFace';
 import * as S from '../styles';
 
 function NoMatch() {
@@ -7,7 +8,7 @@ function NoMatch() {
     <S.Wrapper>
       <S.Container>
         <S.H1Wrapper>4</S.H1Wrapper>
-        <S.MehOutlinedWrapper />
+        <AnimatedFace />
         <S.H1Wrapper>4</S.H1Wrapper>
       </S.Container>
 
