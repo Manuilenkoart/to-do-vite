@@ -98,7 +98,7 @@ export const Mouth = styled.div`
   background-color: #213547;
 `;
 
-export const Face = styled.div`
+export const Face = styled.div.attrs({ 'aria-label': 'animated-face' })`
   position: relative;
   width: 100px;
   height: 100px;

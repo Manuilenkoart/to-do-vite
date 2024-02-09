@@ -9,7 +9,7 @@ describe('<NoMatch />', () => {
     renderWithRouter(<NoMatch />);
 
     const text = screen.getAllByText('4');
-    const icon = screen.getByLabelText(/meh/i);
+    const icon = screen.getByLabelText(/animated-face/i);
     const title = screen.getByRole('heading', { name: /not found/i });
     const link = screen.getByRole('link', { name: /go to home page/i });
 
